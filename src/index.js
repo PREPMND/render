@@ -8,7 +8,7 @@ import { application } from "./app.js";
 console.log("Application object:", application);
 console.log(process.env.REFRESH_TOKEN_SECURITY)
 MongoConnection();
-const PORT=8000
+const PORT=8000 || process.env.PORT;
 application.listen(PORT,()=>{
     console.log("Server is running on ", PORT)
     console.log(listEndpoints(application));
