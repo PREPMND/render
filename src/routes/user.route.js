@@ -1,6 +1,7 @@
 import {Router} from "express"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { loginUser, logOutUser, refreshAccessToken, registerUser ,changeCurrentPassword, getCurrentUser ,updateAccountDetails,updateUserAvatar,updateUserCoverImage, getUserChannelProfile,getWatchHistory} from "../controllers/user.controller.js"
+import {toggleSubscription} from "../controllers/subscription.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 const router = Router();
 //checkingroute
@@ -39,4 +40,6 @@ router.route("/changeavatar").patch(verifyJWT,upload.single("avatar"),updateUser
 router.route("/changecoverimage").patch(verifyJWT,upload.single("coverImage"),updateUserCoverImage)
 router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 router.route("/history").get(verifyJWT,getWatchHistory)
+
+router.post("/subscriptions/:channelId", verifyJWT, toggleSubscription);
 export default router;

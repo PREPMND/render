@@ -36,23 +36,22 @@ export const createVideo = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-};
-
+}; 
 export const getVideos = async (req, res) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 20 } = req.query;
 
         const aggregate = Video.aggregate([
             { $match: { isPublished: true } },
             {
                 $lookup: {
-                    from: "users",               
-                    localField: "owner",        
-                    foreignField: "_id",         
+                    from: "users",
+                    localField: "owner",
+                    foreignField: "_id",
                     as: "owner"
                 }
             },
-            { $unwind: "$owner" },          
+            { $unwind: "$owner" },
             {
                 $project: {
                     title: 1,
@@ -68,18 +67,19 @@ export const getVideos = async (req, res) => {
             }
         ]);
 
-        const options = { page, limit };
+        // Use aggregatePaginate for proper pagination
+        const options = {
+            page: parseInt(page, 10),
+            limit: parseInt(limit, 10)
+        };
+
         const videos = await Video.aggregatePaginate(aggregate, options);
 
         function formatDuration(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
-            if(seconds<60){
-                return `${seconds}s`;
-            }
-            if(seconds<3600){
-                return `${minutes}m`;
-            }
+            if (seconds < 60) return `${seconds}s`;
+            if (seconds < 3600) return `${minutes}m`;
             return `${hours}h ${minutes}m`;
         }
 
