@@ -1,7 +1,12 @@
+import mongoose from "mongoose";
 import { Video } from "../models/video.models.js"; // adjust path if needed
 import { uploadOnCloudinary } from "../utils/cloudinary.js"; // adjust path if needed
 import { apiError } from "../utils/apiError.js"; // adjust path if needed
 import { User } from "../models/user.models.js"; // adjust path if needed
+export const any= (req,res)=>{
+    const result="smth";
+    return result;
+}
 export const createVideo = async (req, res) => {
     try {
         const { title, description } = req.body;
@@ -36,7 +41,7 @@ export const createVideo = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-}; 
+};
 export const getVideos = async (req, res) => {
     try {
         const { page = 1, limit = 20 } = req.query;
@@ -107,7 +112,6 @@ export const getVideoById = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
 // Update video
 export const updateVideo = async (req, res) => {
     try {
