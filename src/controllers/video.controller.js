@@ -3,10 +3,20 @@ import { Video } from "../models/video.models.js"; // adjust path if needed
 import { uploadOnCloudinary } from "../utils/cloudinary.js"; // adjust path if needed
 import { apiError } from "../utils/apiError.js"; // adjust path if needed
 import { User } from "../models/user.models.js"; // adjust path if needed
-export const any= (req,res)=>{
-    const result="smth";
-    return result;
-}
+import { asyncHandler } from "../utils/asyncHandler.js";
+export const any=asyncHandler(async (req,res)=>{
+    const {owner}= req.body;
+    const pipelines=await Video.aggregate(
+        [
+            {
+                $match:{
+                    owner: new mongoose.Types.ObjectId(owner) 
+                },
+            },
+        ]
+    )
+    return res.status(200).json({ success: true, data: pipelines });
+})
 export const createVideo = async (req, res) => {
     try {
         const { title, description } = req.body;
