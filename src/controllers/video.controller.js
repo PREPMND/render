@@ -13,6 +13,14 @@ export const any=asyncHandler(async (req,res)=>{
                     owner: new mongoose.Types.ObjectId(owner) 
                 },
             },
+            {
+                $project:{
+                    coverImage:1,
+                    title:1,
+                    thumbnail:1,
+                    videoFile:1,
+                },
+            }
         ]
     )
     return res.status(200).json({ success: true, data: pipelines });
@@ -77,17 +85,19 @@ export const getVideos = async (req, res) => {
                     "owner._id": 1,
                     "owner.username": 1,
                     "owner.email": 1,
-                    "owner.avatar": 1
-                }
-            }
+                    "owner.avatar": 1,
+                    "owner.coverImage": 1
+                },
+            },
         ]);
+        console.log("AGGREGATE:", aggregate);
 
         // Use aggregatePaginate for proper pagination
         const options = {
             page: parseInt(page, 10),
             limit: parseInt(limit, 10)
         };
-
+        
         const videos = await Video.aggregatePaginate(aggregate, options);
 
         function formatDuration(seconds) {
