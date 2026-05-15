@@ -1,6 +1,6 @@
 import {Router} from "express"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { loginUser, logOutUser, refreshAccessToken, registerUser ,changeCurrentPassword, getCurrentUser ,updateAccountDetails,updateUserAvatar,updateUserCoverImage, getUserChannelProfile,getWatchHistory} from "../controllers/user.controller.js"
+import { loginUser, logOutUser, refreshAccessToken, registerUser ,changeCurrentPassword, getCurrentUser ,updateAccountDetails,updateUserAvatar,updateUserCoverImage, getUserChannelProfile,getWatchHistory, userById} from "../controllers/user.controller.js"
 import {toggleSubscription} from "../controllers/subscription.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 const router = Router();
@@ -33,7 +33,8 @@ router.get("/currentuser", verifyJWT, (req, res) => {
     console.log("AFTER VERIFY");
     res.json({ user: req.user || null });
 });
-console.log("Token candidate:");
+router.route("/userbyid").post(userById)
+console.log(userById);
 router.route("/updateaccount").patch(verifyJWT,updateAccountDetails)
 router.route("/changeavatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
 
@@ -42,4 +43,9 @@ router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 router.route("/history").get(verifyJWT,getWatchHistory)
 
 router.post("/subscriptions/:channelId", verifyJWT, toggleSubscription);
+console.log(
+  router.stack
+    .filter(r => r.route)
+    .map(r => r.route.path)
+);
 export default router;

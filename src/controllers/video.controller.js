@@ -3,7 +3,6 @@ import { Video } from "../models/video.models.js"; // adjust path if needed
 import { User } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js"; // adjust path if needed
 import { apiError } from "../utils/apiError.js"; // adjust path if needed
-import { User } from "../models/user.models.js"; // adjust path if needed
 import { asyncHandler } from "../utils/asyncHandler.js";
 export const any = asyncHandler(async (req, res) => {
     const { owner } = req.body;
@@ -16,15 +15,7 @@ export const any = asyncHandler(async (req, res) => {
         },
     ]);
 
-    const user = await User.findById(_id);
-
-    // attach owner details to each video
-    const videosWithOwner = pipelines.map((video) => ({
-        ...video,
-        owner: user,
-    }));
-
-    return res.status(200).json({ success: true, data: videosWithOwner });
+    return res.status(200).json({ success: true, data: pipelines });
 });
 export const createVideo = async (req, res) => {
     try {

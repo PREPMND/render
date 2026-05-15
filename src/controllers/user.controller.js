@@ -5,6 +5,44 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { apiResponse } from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+const userById = async (req, res) => {
+
+    console.log("CONTROLLER HIT");
+
+    try {
+
+        console.log("BODY:", req.body);
+
+        const { Id } = req.body;
+
+        console.log("ID:", Id);
+
+        if (!Id) {
+            return res.status(400).json({
+                success: false,
+                message: "No ID received"
+            });
+        }
+
+        const userDetails = await User.findById(Id);
+
+        console.log("USER:", userDetails);
+
+        return res.status(200).json({
+            success: true,
+            data: userDetails
+        });
+
+    } catch (err) {
+
+        console.log("ACTUAL ERROR:", err);
+
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
@@ -437,5 +475,6 @@ export {
     updateUserAvatar,
     updateUserCoverImage,
     getUserChannelProfile,
-    getWatchHistory
+    getWatchHistory,
+    userById,
 }
