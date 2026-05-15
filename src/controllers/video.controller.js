@@ -43,7 +43,7 @@ export const createVideo = async (req, res) => {
             throw new apiError(400, "Video cannot be uploaded");
         }
         const loggedInUser = await User.findById(req.user._id).select(
-            "-password -refreshToken -coverImage -email -createdAt -updatedAt"
+            "-password -refreshToken -email -createdAt -updatedAt"
         )
         const videoDoc = await Video.create({
             title,
@@ -94,8 +94,8 @@ export const getVideos = async (req, res) => {
 
         // Use aggregatePaginate for proper pagination
         const options = {
-            page: parseInt(page, 10),
-            limit: parseInt(limit, 10)
+            page: parseInt(page, 20),
+            limit: parseInt(limit, 20)
         };
         
         const videos = await Video.aggregatePaginate(aggregate, options);
