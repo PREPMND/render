@@ -6,7 +6,7 @@ import { apiError } from "../utils/apiError.js"; // adjust path if needed
 import { asyncHandler } from "../utils/asyncHandler.js";
 export const any = asyncHandler(async (req, res) => {
     const { owner } = req.body;
-
+    console.log("Owner ID received in /any route:", owner);
     const pipelines = await Video.aggregate([
         {
             $match: {
@@ -14,7 +14,7 @@ export const any = asyncHandler(async (req, res) => {
             },
         },
     ]);
-
+    console.log("Pipelines result in /any route:", pipelines);
     return res.status(200).json({ success: true, data: pipelines });
 });
 export const createVideo = async (req, res) => {
