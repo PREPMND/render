@@ -6,31 +6,21 @@ import { apiResponse } from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 const userById = async (req, res) => {
-
-
     try {
         const { Id } = req.body;
-
-
         if (!Id) {
             return res.status(400).json({
                 success: false,
                 message: "No ID received"
             });
         }
-
         const userDetails = await User.findById(Id);
-
-
         return res.status(200).json({
             success: true,
             data: userDetails
         });
-
     } catch (err) {
-
         console.log("ACTUAL ERROR:", err);
-
         return res.status(500).json({
             success: false,
             message: err.message
@@ -42,10 +32,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
-
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: true })
-
         return { accessToken, refreshToken }
     } catch {
         throw new apiError(500, "Something went wrong while generating tokens")
@@ -67,12 +55,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
     if ([fullName, email, username, password].some((field) => field?.trim() === "")) {
         throw new apiError(400, "All fields are required")
     }
-
     const existedUser = await User.findOne({ $or: [{ email }, { username }] })
     if (existedUser) {
         throw new apiError(409, "User with email or username already exists")
     }
-
     const avatarLocalPath = req.files?.avatar[0]?.path;
     console.log(avatarLocalPath)
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
@@ -85,7 +71,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     if (!avatar) {
         throw new apiError(400, "Avatar cannot be uploaded")
     }
-
     //entering the database
     const user = await User.create({
         fullName,
@@ -102,7 +87,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
     if (!createdUser) {
         throw new apiError(500, "smth went wrong while registering the user")
     }
-
     return res.status(201).json(
         new apiResponse(200, createdUser, "User Registered Succesfully")
     )
@@ -116,7 +100,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
     //send cookies ,secure cookies
     //successfull 
     const { email, username, password } = req.body
-
     if (!username && !email) {
         throw new apiError(400, "Username or Email is required")
     }//User.findOne({username}) and await as data in diff continent
@@ -128,19 +111,20 @@ const loginUser = asyncHandler(async (req, res, next) => {
     if (!isPasswordValid) {
         throw new apiError(401, "Invalid Password")
     }
-
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
     //these tokens are not present in local user
     const loggedInUser = await User.findById(user._id).select(
         "-password -refreshToken "
     )
+    const isProd = process.env.NODE_ENV === "production";
 
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    }
+    res.cookie("refreshToken", token, {
+        httpOnly: true,                     // always true
+        secure: isProd,                     // only true in production
+        sameSite: isProd ? "none" : "lax",  // "none" for prod cross-domain, "lax" for localhost
+    });
+
+    console.log(refreshToken);
     return res
         .status(200)
         .cookie("accessToken", accessToken, options)
@@ -167,56 +151,68 @@ const logOutUser = asyncHandler(async (req, res, next) => {
             new: true
         }
     )
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    }
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.cookie("refreshToken", token, {
+        httpOnly: true,                     // always true
+        secure: isProd,                     // only true in production
+        sameSite: isProd ? "none" : "lax",  // "none" for prod cross-domain, "lax" for localhost
+    });
+
     return res
         .status(200)
         .clearCookie("accessToken", options)
         .clearCookie("refreshToken", options)
         .json(200, {}, "User Logged Out Succesfully")
 })
-const refreshAccessToken = asyncHandler(async (req, res, next) => {
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    console.log("refresh route hit");
+
+    const incomingRefreshToken =
+        req.cookies?.refreshToken || req.body?.refreshToken;
+
     if (!incomingRefreshToken) {
-        throw new apiError(401, "Unauthorized Request")
+        throw new apiError(401, "Unauthorized Request");
     }
-    try {
-        const decodedToken = jwt.verify(
-            incomingRefreshToken, process.env.REFRESH_TOKEN_SECURITY
-        )
-        const user = await User.findById(decodedToken?._id)
-        if (!user) {
-            throw new apiError(401, "Invalid RefreshToken")
-        }
-        if (incomingRefreshToken !== user?.refreshToken) {
-            throw new apiError(401, "Refresh token is expired or used")
-        }
-        const options = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        }
-        const { accessToken, newrefreshToken } = await generateAccessAndRefreshTokens(user._id)
-        return res
-            .status(200)
-            .cookie("accessToken", accessToken)
-            .cookie("refreshToken", newrefreshToken)
-            .json(
-                new apiResponse(
-                    200,
-                    {},
-                    "access token refreshed"
-                )
-            )
-    } catch (error) {
-        throw new apiError(401, error?.message || "Invalid Refresh Token")
+
+    const decodedToken = jwt.verify(
+        incomingRefreshToken,
+        process.env.REFRESH_TOKEN_SECURITY
+    );
+    console.log("cookie:", incomingRefreshToken);
+
+    const user = await User.findById(decodedToken?._id);
+    console.log("user")
+
+    if (!user) {
+        throw new apiError(401, "Invalid RefreshToken");
     }
-})
+
+
+    if (incomingRefreshToken !== user.refreshToken) {
+        throw new apiError(401, "Refresh token is expired or used");
+    }
+    console.log("cookie:", incomingRefreshToken);
+    console.log("db:", user.refreshToken);
+    console.log("equal:", incomingRefreshToken === user.refreshToken);
+    console.log("AAAAAAAAAAAA");
+    console.log("before generate");
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.cookie("refreshToken", token, {
+        httpOnly: true,                     // always true
+        secure: isProd,                     // only true in production
+        sameSite: isProd ? "none" : "lax",  // "none" for prod cross-domain, "lax" for localhost
+    });
+    ;
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(new apiResponse(200, {}, "access token refreshed"));
+});
 const changeCurrentPassword = asyncHandler(async (req, res, next) => {
     /*{const {password,newpassword}=req.body
     if (!password) {throw new apiError(404,"Password Nout Found")}
@@ -255,11 +251,11 @@ const changeCurrentPassword = asyncHandler(async (req, res, next) => {
 })
 const getCurrentUser = asyncHandler(async (req, res, next) => {
     console.log(">>> getCurrentUser called");
-
     const currentUser = await User.findById(req.user?._id)//an object
     console.log("currentUser")
     const payload = new apiResponse(200, currentUser, "Yes");
     console.log("Sending payload:", payload);
+    console.log(req.user);
     res.status(200).json({
         statusCode: 200,
         data: req.user,
