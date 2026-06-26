@@ -143,31 +143,24 @@ const loginUser = asyncHandler(async (req, res, next) => {
 const logOutUser = asyncHandler(async (req, res, next) => {
     await User.findByIdAndUpdate(
         req.user._id,
-        {
-            $set: {
-                refreshToken: undefined
-            }
-        },
-        {
-            new: true
-        }
-    )
+        { $set: { refreshToken: undefined } },
+        { new: true }
+    );
+
     const isProd = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+    };
 
-    res.cookie("refreshToken", token, {
-        httpOnly: true,                     // always true
-        secure: isProd,                     // only true in production
-        sameSite: isProd ? "none" : "lax",  // "none" for prod cross-domain, "lax" for localhost
-    });
+    res.clearCookie("refreshToken", cookieOptions);
+    res.clearCookie("accessToken", cookieOptions);
 
-    return res
-        .status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
-        .json(200, {}, "User Logged Out Succesfully")
-})
+    return res.status(200).json({ message: "User Logged Out Successfully" });
+});
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
-    console.log("refresh route hit");
 
     const incomingRefreshToken =
         req.cookies?.refreshToken || req.body?.refreshToken;
@@ -193,11 +186,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     if (incomingRefreshToken !== user.refreshToken) {
         throw new apiError(401, "Refresh token is expired or used");
     }
-    console.log("cookie:", incomingRefreshToken);
-    console.log("db:", user.refreshToken);
-    console.log("equal:", incomingRefreshToken === user.refreshToken);
-    console.log("AAAAAAAAAAAA");
-    console.log("before generate");
     const isProd = process.env.NODE_ENV === "production";
 
     res.cookie("refreshToken", token, {
@@ -251,12 +239,8 @@ const changeCurrentPassword = asyncHandler(async (req, res, next) => {
     return res.status(200).json(new apiResponse(200, {}, "Password Updated Succesfully"))
 })
 const getCurrentUser = asyncHandler(async (req, res, next) => {
-    console.log(">>> getCurrentUser called");
     const currentUser = await User.findById(req.user?._id)//an object
-    console.log("currentUser")
     const payload = new apiResponse(200, currentUser, "Yes");
-    console.log("Sending payload:", payload);
-    console.log(req.user);
     res.status(200).json({
         statusCode: 200,
         data: req.user,
@@ -345,7 +329,6 @@ const updateUserCoverImage = asyncHandler(async (req, res, next) => {
 })
 const getUserChannelProfile = asyncHandler(async (req, res, next) => {
     const { username } = req.body
-    console.log("getUserChannelProfile called with username:", username);
     if (!username?.trim()) {
         throw new apiError(404, "User Name is missing")
     }
