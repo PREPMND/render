@@ -1,20 +1,22 @@
-import { Message } from "../models/message.model.js";
+import { Message } from "../models/socket.models.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-
+import { apiError } from "../utils/apiError.js";
+import { apiResponse } from "../utils/apiResponse.js";
+export const getConversationId = (user1, user2) => {
+    return [user1.toString(), user2.toString()].sort().join("_");
+};
 export const sendMessage = asyncHandler(async (req, res) => {
     const sender = req.user?._id;
-    const { receiver, conversationId, text, messageType = "text" } = req.body;
+    const { receiver, text, messageType = "text" } = req.body;
 
+    const conversationId = getConversationId(sender, receiver);
     if (!receiver || !conversationId) {
-        throw new ApiError(400, "Receiver and conversationId are required");
+        throw new apiError(400, "Receiver and conversationId are required");
     }
 
     if (!text?.trim() && messageType === "text") {
-        throw new ApiError(400, "Message cannot be empty");
+        throw new apiError(400, "Message cannot be empty");
     }
-
     const message = await Message.create({
         sender,
         receiver,
@@ -22,22 +24,35 @@ export const sendMessage = asyncHandler(async (req, res) => {
         text,
         messageType,
     });
-
+    console.log("fwg");
+    console.log(message)
     return res.status(201).json(
-        new ApiResponse(201, message, "Message sent successfully")
+        new apiResponse(201, message, "Message sent successfully")
     );
 });
 
 export const getMessages = asyncHandler(async (req, res) => {
-    const { conversationId } = req.params;
+
+    console.log(req.params);
+
+    const { receiverId } = req.params;
+
+    const sender = req.user._id;
+
+    const conversationId = getConversationId(sender, receiverId);
+
+    console.log(conversationId);
 
     const messages = await Message.find({
-        conversationId,
+        conversationId
     }).sort({ createdAt: 1 });
 
+    console.log(messages);
+
     return res.status(200).json(
-        new ApiResponse(200, messages)
+        new apiResponse(200, messages, "Messages fetched")
     );
+
 });
 export const getConversations = asyncHandler(async (req, res) => {
     const userId = req.user._id;
@@ -50,6 +65,6 @@ export const getConversations = asyncHandler(async (req, res) => {
     }).sort({ createdAt: -1 });
 
     return res.status(200).json(
-        new ApiResponse(200, conversations)
+        new apiResponse(200, conversations)
     );
 });
