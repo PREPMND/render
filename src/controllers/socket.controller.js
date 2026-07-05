@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Message } from "../models/socket.models.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiError.js";
@@ -31,9 +32,96 @@ export const sendMessage = asyncHandler(async (req, res) => {
     );
 });
 
-export const getMessages = asyncHandler(async (req, res) => {
+export const getConversations = asyncHandler(async (req, res) => {
+    const userId = new mongoose.Types.ObjectId(req.user._id);
+    console.log(req.user._id);
 
-    console.log(req.params);
+    try {
+        const conversations = await Message.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { sender: userId },
+                        { receiver: userId }
+                    ]
+                }
+            },
+
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+
+            {
+                $group: {
+                    _id: "$conversationId",
+                    lastMessage: { $first: "$$ROOT" }
+                }
+            },
+
+            {
+                $addFields: {
+                    otherUser: {
+                        $cond: [
+                            { $eq: ["$lastMessage.sender", userId] },
+                            "$lastMessage.receiver",
+                            "$lastMessage.sender"
+                        ]
+                    }
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "otherUser",
+                    foreignField: "_id",
+                    as: "otherUser"
+                }
+            },
+
+            {
+                $unwind: "$otherUser"
+            },
+
+            {
+                $project: {
+                    _id: 0,
+                    conversationId: "$lastMessage.conversationId",
+                    lastMessage: "$lastMessage.text",
+                    createdAt: "$lastMessage.createdAt",
+
+                    otherUser: {
+                        _id: "$otherUser._id",
+                        username: "$otherUser.username",
+                        avatar: "$otherUser.avatar",
+                        fullName: "$otherUser.fullName"
+                    }
+                }
+            }
+
+        ]);
+
+
+        return res.status(200).json(
+            new apiResponse(200, conversations, "Conversations fetched")
+        );
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+
+    return res.status(200).json(
+        new apiResponse(
+            200,
+            conversations,
+            "Conversations fetched successfully"
+        )
+    );
+
+});
+export const getMessages = asyncHandler(async (req, res) => {
 
     const { receiverId } = req.params;
 
@@ -53,18 +141,4 @@ export const getMessages = asyncHandler(async (req, res) => {
         new apiResponse(200, messages, "Messages fetched")
     );
 
-});
-export const getConversations = asyncHandler(async (req, res) => {
-    const userId = req.user._id;
-
-    const conversations = await Message.find({
-        $or: [
-            { sender: userId },
-            { receiver: userId }
-        ]
-    }).sort({ createdAt: -1 });
-
-    return res.status(200).json(
-        new apiResponse(200, conversations)
-    );
 });
