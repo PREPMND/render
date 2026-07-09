@@ -3,9 +3,10 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { loginUser, logOutUser, refreshAccessToken, registerUser ,changeCurrentPassword, getCurrentUser ,updateAccountDetails,updateUserAvatar,updateUserCoverImage, getUserChannelProfile,getWatchHistory, userById} from "../controllers/user.controller.js"
 import {toggleSubscription} from "../controllers/subscription.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
+import { rateLimiter } from "../middlewares/ratelimiter.middleware.js";
 const router = Router();
 //checkingroute
-router.route("/register").post(
+router.route("/register").post(rateLimiter,
     upload.fields([
         {
             name:"avatar",
@@ -20,7 +21,7 @@ router.route("/register").post(
 
 router.post("/debug", (req,res) => res.send("debug route works"))
 
-router.route("/login").post(
+router.route("/login").post(rateLimiter,
     loginUser)
 
 //secured routes
@@ -31,7 +32,7 @@ router.route("/changedpsw").post(verifyJWT,changeCurrentPassword)
 router.get("/currentuser", verifyJWT, (req, res) => {
     res.json({ user: req.user || null });
 });
-router.route("/userbyid").post(userById)
+router.route("/userbyid").post(rateLimiter, userById)
 router.route("/updateaccount").patch(verifyJWT,updateAccountDetails)
 router.route("/changeavatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
 router.route("/getchannel").post(verifyJWT,getUserChannelProfile)
@@ -39,6 +40,6 @@ router.route("/changecoverimage").patch(verifyJWT,upload.single("coverImage"),up
 router.route("/c/:username").get(verifyJWT,getUserChannelProfile)
 router.route("/history").get(verifyJWT,getWatchHistory)
 
-router.route("/subscriptions/:channelId").post(verifyJWT, toggleSubscription);
+router.route("/subscriptions/:channelId").post(verifyJWT, rateLimiter, toggleSubscription);
 
 export default router;

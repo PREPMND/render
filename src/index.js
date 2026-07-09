@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
-import listEndpoints from 'express-list-endpoints';
+import { connectRedis } from "./redis/redis.js";
 dotenv.config({
     path:'./.env'
 })
 import { MongoConnection } from "./db/index.js";
 import { application } from "./app.js";
 MongoConnection();
+await connectRedis();
 application.use((req, res, next) => {
     next();
 });
