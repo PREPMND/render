@@ -4,6 +4,7 @@ import { loginUser, logOutUser, refreshAccessToken, registerUser ,changeCurrentP
 import {toggleSubscription} from "../controllers/subscription.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import { rateLimiter } from "../middlewares/ratelimiter.middleware.js";
+import { cache } from "../middlewares/cache.middleware.js";
 const router = Router();
 //checkingroute
 router.route("/register").post(rateLimiter,
@@ -32,7 +33,7 @@ router.route("/changedpsw").post(verifyJWT,changeCurrentPassword)
 router.get("/currentuser", verifyJWT, (req, res) => {
     res.json({ user: req.user || null });
 });
-router.route("/userbyid").post(userById)
+router.route("/userbyid").post(cache(300), userById)
 router.route("/updateaccount").patch(verifyJWT,updateAccountDetails)
 router.route("/changeavatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
 router.route("/getchannel").post(verifyJWT,getUserChannelProfile)
