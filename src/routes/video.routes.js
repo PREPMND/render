@@ -5,6 +5,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import { rateLimiter } from "../middlewares/ratelimiter.middleware.js";
 import { cache } from "../middlewares/cache.middleware.js";
 const routerVideo = express.Router();
+routerVideo.get("/practicevideo",PracticeVideo);
 
 routerVideo.post("/createvideo", verifyJWT,rateLimiter,
     upload.fields([
@@ -18,11 +19,11 @@ routerVideo.post("/createvideo", verifyJWT,rateLimiter,
         }
     ]),
     createVideo);
+
 routerVideo.post("/any",cache(300), any);
 routerVideo.get("/getvideos",cache(300), getVideos);
 console.log("Practice route registered");
 
-routerVideo.get("/practicevideo",PracticeVideo);
 routerVideo.get("/getvideo/:id",cache(300),  getVideoById);
 // use :id as a path param
 routerVideo.put("/updatevideo/:id", verifyJWT, rateLimiter, updateVideo);
