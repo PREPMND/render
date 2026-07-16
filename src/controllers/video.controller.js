@@ -188,6 +188,8 @@ export const PracticeVideo=async(req,res)=>{
         Video.countDocuments()
     ]);
     const totalPages=Math.ceil(totalVideos/limit);
-    return apiResponse
+    return res.status(200).json(
+        new apiResponse(200,)
+    )
 
 }
