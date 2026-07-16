@@ -176,6 +176,8 @@ export const PracticeVideo=async(req,res)=>{
     const page=parseInt(req.query.page)||1;
     const limit=parseInt(req.query.limit)||6;
     const skip=(page-1)*limit;
-    
+    if(page<1 || limit<1 || limit>12){
+        
+    }
 
 }
