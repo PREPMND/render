@@ -179,6 +179,10 @@ export const PracticeVideo=async(req,res)=>{
     if(page<1 || limit<1 || limit>12){
         throw new apiError(401,"Invalid Query Parameters");
     }
-    
+    const [videos , totalVideos]=Video.find(
+        {
+            
+        }
+    )
 
 }
