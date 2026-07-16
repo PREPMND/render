@@ -172,3 +172,9 @@ export const deleteVideo = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+export const PracticeVideo=async(req,res)=>{
+    const page=(req.query.page)||1;
+    const limit=(req.query.limit)||6;
+    const skip=(page-1)*limit;
+    
+}
