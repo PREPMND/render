@@ -173,8 +173,9 @@ export const deleteVideo = async (req, res) => {
     }
 };
 export const PracticeVideo=async(req,res)=>{
-    const page=(req.query.page)||1;
-    const limit=(req.query.limit)||6;
+    const page=parseInt(req.query.page)||1;
+    const limit=parseInt(req.query.limit)||6;
     const skip=(page-1)*limit;
     
+
 }
