@@ -4,6 +4,7 @@ import { User } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js"; // adjust path if needed
 import { apiError } from "../utils/apiError.js"; // adjust path if needed
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { apiResponse } from "../utils/apiResponse.js";
 export const any = asyncHandler(async (req, res) => {
     const { owner } = req.body;
     const pipelines = await Video.aggregate([
@@ -183,7 +184,10 @@ export const PracticeVideo=async(req,res)=>{
         Video.find()
         .sort({createdAt:-1})
         .skip(skip)
-        .limit(limit)
-    ])
+        .limit(limit),
+        Video.countDocuments()
+    ]);
+    const totalPages=Math.ceil(totalVideos/limit);
+    return apiResponse
 
 }
