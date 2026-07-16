@@ -189,7 +189,6 @@ export const PracticeVideo=async(req,res)=>{
     ]);
     const totalPages=Math.ceil(totalVideos/limit);
     return res.status(200).json(
-        new apiResponse(200,)
-    )
-
+        new apiResponse(200,{videos,totalVideos,totalPages},"The Video Feed Has Been Fetched")
+    );
 }
