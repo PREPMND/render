@@ -5,6 +5,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import { rateLimiter } from "../middlewares/ratelimiter.middleware.js";
 import { cache } from "../middlewares/cache.middleware.js";
 const routerVideo = express.Router();
+console.log("wefwr")
 routerVideo.get("/practicevideo",PracticeVideo);
 
 routerVideo.post("/createvideo", verifyJWT,rateLimiter,
