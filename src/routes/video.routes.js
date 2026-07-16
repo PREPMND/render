@@ -20,6 +20,8 @@ routerVideo.post("/createvideo", verifyJWT,rateLimiter,
     createVideo);
 routerVideo.post("/any",cache(300), any);
 routerVideo.get("/getvideos",cache(300), getVideos);
+console.log("Practice route registered");
+
 routerVideo.get("/practicevideo",PracticeVideo);
 routerVideo.get("/getvideo/:id",cache(300),  getVideoById);
 // use :id as a path param
