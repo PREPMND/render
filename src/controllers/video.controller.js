@@ -192,7 +192,7 @@ export const PracticeVideo = async (req, res) => {
                 $options: "i"
             };
         }
-        const sortOption={};
+        let sortOption={};
         switch(sort){
             case "latest":
                 sortOption={createdAt:-1};
