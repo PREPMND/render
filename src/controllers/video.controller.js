@@ -52,6 +52,7 @@ export const createVideo = async (req, res) => {
     }
 };
 export const getVideos = async (req, res) => {
+    console.log("ewgrhetjehwrhejsr")
     try {
         const { page= 1, limit = 6 } = req.query;
         const sort=req.query.sort || "latest";
