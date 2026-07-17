@@ -90,6 +90,7 @@ export const getVideos = async (req, res) => {
                     "owner.coverImage": 1
                 },
             },
+            { $sort: sortOption }
         ]);
 
         // Use aggregatePaginate for proper pagination
