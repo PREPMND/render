@@ -192,7 +192,13 @@ export const PracticeVideo = async (req, res) => {
         }
         const sortOption={};
         switch(sort){
-            case sort=="latest"
+            case "latest":
+                sortOption={createdAt:-1};
+                break;
+            case "oldest":
+                sortOption={createdAt:1};
+                break;
+            
         }
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter)
