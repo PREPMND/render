@@ -60,10 +60,10 @@ export const getVideos = async (req, res) => {
         }
         let sortOption={};
         switch (sort){
-            case latest:
+            case "latest":
                 sortOption={createdAt:-1};
                 break;
-            case oldest:
+            case "oldest":
                 sortOption:{createdAt:1};
                 break;    
         }
