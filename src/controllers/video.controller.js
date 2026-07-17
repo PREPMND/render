@@ -202,7 +202,7 @@ export const PracticeVideo = async (req, res) => {
         }
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter)
-                .sort({ createdAt: -1 })
+                .sort(sortOption)
                 .skip(skip)
                 .limit(limit),
             Video.countDocuments(filter)
