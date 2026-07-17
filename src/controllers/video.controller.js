@@ -97,7 +97,8 @@ export const getVideos = async (req, res) => {
         // Use aggregatePaginate for proper pagination
         const options = {
             page: parseInt(page, 20),
-            limit: parseInt(limit, 20)
+            limit: parseInt(limit, 20),
+            sort: sortOption
         };
 
         const videos = await Video.aggregatePaginate(aggregate, options);
