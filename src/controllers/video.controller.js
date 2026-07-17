@@ -53,7 +53,7 @@ export const createVideo = async (req, res) => {
 };
 export const getVideos = async (req, res) => {
     try {
-        const { page = 1, limit = 6 } = req.query;
+        const { pageParams = 1, limit = 6 } = req.query;
         const sort=req.query.sort || "latest";
         
         let sortOption={};
@@ -94,7 +94,7 @@ export const getVideos = async (req, res) => {
 
         // Use aggregatePaginate for proper pagination
         const options = {
-            page: parseInt(page, 20),
+            pageParams: parseInt(page, 20),
             limit: parseInt(limit, 20),
             sort: sortOption
         };
