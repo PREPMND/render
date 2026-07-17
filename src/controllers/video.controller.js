@@ -54,8 +54,10 @@ export const createVideo = async (req, res) => {
 export const getVideos = async (req, res) => {
     try {
         const { page = 1, limit = 6 } = req.query;
-        const sort=req.query.sort;
-        
+        const sort=req.query.sort || "latest";
+        if()
+        let sortOption={};
+
         const aggregate = Video.aggregate([
             { $match: { isPublished: true } },
             {
