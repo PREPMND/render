@@ -179,7 +179,7 @@ export const PracticeVideo = async (req, res) => {
         const limit = parseInt(req.query.limit) || 6;
         const skip = (page - 1) * limit;
         const search= (req.query.search) || "";
-        const sortOption= (req.query.search) || "latest";
+        const sort= (req.query.search) || "latest";
         if (page < 1 || limit < 1 || limit > 12) {
             throw new apiError(401, "Invalid Query Parameters");
         }
@@ -189,6 +189,10 @@ export const PracticeVideo = async (req, res) => {
                 $regex: search,
                 $options: "i"
             };
+        }
+        const sortOption={};
+        switch(sort){
+            case sort=="latest"
         }
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter)
