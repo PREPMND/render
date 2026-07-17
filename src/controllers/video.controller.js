@@ -62,7 +62,7 @@ export const getVideos = async (req, res) => {
                 sortOption={createdAt:-1};
                 break;
             case "oldest":
-                sortOption:{createdAt:1};
+                sortOption={createdAt:1};
                 break;    
         }
         const aggregate = Video.aggregate([
