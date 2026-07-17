@@ -55,9 +55,18 @@ export const getVideos = async (req, res) => {
     try {
         const { page = 1, limit = 6 } = req.query;
         const sort=req.query.sort || "latest";
-        if()
+        if((sort!="latest" ) || (sort!="oldest")){
+            throw new apiError(401,"Wrong Sort Paramaters");
+        }
         let sortOption={};
-
+        switch (sort){
+            case latest:
+                sortOption={createdAt:-1};
+                break;
+            case oldest:
+                sortOption:{createdAt:1};
+                break;    
+        }
         const aggregate = Video.aggregate([
             { $match: { isPublished: true } },
             {
