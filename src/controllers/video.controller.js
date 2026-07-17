@@ -174,7 +174,6 @@ export const deleteVideo = async (req, res) => {
     }
 };
 export const PracticeVideo = async (req, res) => {
-    console.log(req.query);
     
     try {
         const page = parseInt(req.query.page) || 1;
