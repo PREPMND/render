@@ -241,10 +241,14 @@ export const Trending=async(req,res)=>{
     try {
 
         const search=(req.query.search) || "";
-        const filter={
-            regex:search;
-            
+        const filter={};
+        if(search.trim()){
+            filter.title={
+                $regex:search,
+                $options:"i",
+            };
         };
+        
         const [videos,totalVideos]= await Promise.all([
             Video.find({}),
             Video.countDocuments()
