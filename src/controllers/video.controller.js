@@ -253,11 +253,10 @@ export const Trending=async(req,res)=>{
             Video.find({filter}),
             Video.countDocuments(filter)
         ])
+        const totalPages = Math.ceil(totalVideos / limit);
         return res.status(200).json(
-            new apiResponse(200,{
-                videos,
-            }),"Data fetched succesfully"
-        )
+            new apiResponse(200, { videos, totalVideos, totalPages }, "The Video Feed Has Been Fetched")
+        );
     } catch (error) {
         throw new apiError(401,"Cannot really fetch the desired output")
     }
