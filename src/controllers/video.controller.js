@@ -250,7 +250,7 @@ export const Trending=async(req,res)=>{
         };
 
         const [videos,totalVideos]= await Promise.all([
-            Video.find({filter}),
+            Video.find(filter),
             Video.countDocuments(filter)
         ])
         return res.status(200).json(
