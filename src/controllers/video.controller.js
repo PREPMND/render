@@ -206,15 +206,27 @@ export const PracticeVideo = async (req, res) => {
         const skip = (page - 1) * limit;
         const search= (req.query.search) || "";
         const sort= (req.query.sort) || "latest";
+        const owner={req.query.owner} || "";
         if (page < 1 || limit < 1 || limit > 12) {
             throw new apiError(401, "Invalid Query Parameters");
         }
-        const filter = {};
+        const filter = {
+            isPublished:true,
+        };
         if (search.trim()) {
             filter.title = {
                 $regex: search,
                 $options: "i"
             };
+            filter.description={
+                $regex:search,
+                $options:"i",
+            };
+            filter.owner.username={
+                $regex:owner,
+                $options:"i"
+            };
+
         }
         let sortOption={};
         switch(sort){
