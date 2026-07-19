@@ -204,11 +204,19 @@ export const PracticeVideo = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 6;
         const skip = (page - 1) * limit;
-        const search = (req.query.search) || "";
         const sort = (req.query.sort) || "latest";
-        const owner = (req.query.owner) || "";
         if (page < 1 || limit < 1 || limit > 12) {
             throw new apiError(401, "Invalid Query Parameters");
+        }
+        let search = req.query.search || "";
+        let owner = "";
+        const words = search.trim().split(/\s+/);
+        const ownerToken = words.find(word => word.startsWith("o/"));
+        if (ownerToken) {
+            owner = ownerToken.slice(2); 
+            search = words
+                .filter(word => word !== ownerToken)
+                .join(" ");
         }
         const users = await User.find({
             username: {
@@ -236,9 +244,9 @@ export const PracticeVideo = async (req, res) => {
                 },
             ];
         }
-        if(owner.trim()){
-            filter.owner={
-                $in:ownerIds,
+        if (owner.trim()) {
+            filter.owner = {
+                $in: ownerIds,
             }
         }
         let sortOption = {};
