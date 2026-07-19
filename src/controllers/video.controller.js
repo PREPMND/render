@@ -213,8 +213,8 @@ export const PracticeVideo = async (req, res) => {
         const words = search.trim().split(/\s+/);
         const ownerToken = words.find(word => word.startsWith("o/"));
         if (ownerToken) {
-            if (ownerToken && ownerToken.length>2) {
-                owner=ownerToken.slice(2);
+            if (ownerToken && ownerToken.length > 2) {
+                owner = ownerToken.slice(2);
             }
             search = words
                 .filter(word => word !== ownerToken)
@@ -289,14 +289,52 @@ PaginationOnly published videosSort by views (highest first)Return:videos curren
 export const Trending = async (req, res) => {
     try {
 
-        const search = (req.query.search) || "";
-        const filter = {};
-        if (search.trim()) {
-            filter.title = {
-                $regex: search,
-                $options: "i",
-            };
+        let search = req.query.search || "";
+        let owner = "";
+        const words = search.trim().split(/\s+/);
+        const ownerToken = words.find(word => word.startsWith("o/"));
+        if (ownerToken) {
+            if (ownerToken && ownerToken.length > 2) {
+                owner = ownerToken.slice(2);
+            }
+            search = words
+                .filter(word => word !== ownerToken)
+                .join(" ");
+        }
+        let ownerIds = [];
+        if (owner.trim()) {
+            const users = await User.find({
+                username: {
+                    $regex: owner,
+                    $options: "i"
+                }
+            });
+            ownerIds = users.map(user => user._id);
+        }
+        const filter = {
+            isPublished: true,
         };
+        if (search.trim()) {
+            filter.$or = [
+                {
+                    title: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    description: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+            ];
+        }
+        if (owner.trim()) {
+            filter.owner = {
+                $in: ownerIds,
+            }
+        }
 
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter),
