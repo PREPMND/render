@@ -229,11 +229,11 @@ export const PracticeVideo = async (req, res) => {
                 $regex: search,
                 $options: "i",
             };
-            filter.owner.username = {
-                $regex: owner,
-                $options: "i"
-            };
-
+            if (owner.trim()) {
+                filter.owner = {
+                    $in: ownerIds
+                };
+            }
         }
         let sortOption = {};
         switch (sort) {
