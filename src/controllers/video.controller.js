@@ -216,6 +216,7 @@ export const PracticeVideo = async (req, res) => {
                 $options: "i"
             }
         });
+        const ownerIds = users.map(user => user._id);
         const filter = {
             isPublished: true,
         };
