@@ -230,10 +230,10 @@ export const PracticeVideo = async (req, res) => {
                     $regex: search,
                     $options: "i"
                 }},
-                {owner: {
-                    $in: ownerIds
-                }}
             ];
+        }
+        if(owner.trim()){
+            filter
         }
         let sortOption = {};
         switch (sort) {
