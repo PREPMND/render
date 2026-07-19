@@ -236,6 +236,11 @@ export const PracticeVideo = async (req, res) => {
                 },
             ];
         }
+        if(owner.trim()){
+            filter.owner={
+                $in:ownerIds,
+            }
+        }
         let sortOption = {};
         switch (sort) {
             case "latest":
