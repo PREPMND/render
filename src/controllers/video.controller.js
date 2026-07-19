@@ -221,19 +221,25 @@ export const PracticeVideo = async (req, res) => {
             isPublished: true,
         };
         if (search.trim()) {
-            filter.title = {
-                $regex: search,
-                $options: "i"
-            };
-            filter.description = {
-                $regex: search,
-                $options: "i",
-            };
-            if (owner.trim()) {
-                filter.owner = {
-                    $in: ownerIds
-                };
-            }
+            filter.$or = [
+                {
+                    title: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    description: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    owner: {
+                        $in: ownerIds
+                    }
+                }
+            ];
         }
         let sortOption = {};
         switch (sort) {
