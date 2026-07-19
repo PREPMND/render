@@ -54,17 +54,17 @@ export const createVideo = async (req, res) => {
 export const getVideos = async (req, res) => {
     console.log("ewgrhetjehwrhejsr")
     try {
-        const { page= 1, limit = 6 } = req.query;
-        const sort=req.query.sort || "latest";
-        
-        let sortOption={};
-        switch (sort){
+        const { page = 1, limit = 6 } = req.query;
+        const sort = req.query.sort || "latest";
+
+        let sortOption = {};
+        switch (sort) {
             case "latest":
-                sortOption={createdAt:-1};
+                sortOption = { createdAt: -1 };
                 break;
             case "oldest":
-                sortOption={createdAt:1};
-                break;    
+                sortOption = { createdAt: 1 };
+                break;
         }
         const aggregate = Video.aggregate([
             { $match: { isPublished: true } },
@@ -84,7 +84,7 @@ export const getVideos = async (req, res) => {
                     videoFile: 1,
                     thumbnail: 1,
                     duration: 1,
-                    createdAt:1,
+                    createdAt: 1,
                     "owner._id": 1,
                     "owner.username": 1,
                     "owner.email": 1,
@@ -199,45 +199,50 @@ search optional
 sort: latest oldest mostViewed published filter pagination return videos currentPage totalPages totalVideos hasNextPage hasPrevPage
 */}
 export const PracticeVideo = async (req, res) => {
-    
+
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 6;
         const skip = (page - 1) * limit;
-        const search= (req.query.search) || "";
-        const sort= (req.query.sort) || "latest";
-        const owner=(req.query.owner) || "";
+        const search = (req.query.search) || "";
+        const sort = (req.query.sort) || "latest";
+        const owner = (req.query.owner) || "";
         if (page < 1 || limit < 1 || limit > 12) {
             throw new apiError(401, "Invalid Query Parameters");
         }
-        
+        const users = await User.find({
+            username: {
+                $regex: owner,
+                $options: "i"
+            }
+        });
         const filter = {
-            isPublished:true,
+            isPublished: true,
         };
         if (search.trim()) {
             filter.title = {
                 $regex: search,
                 $options: "i"
             };
-            filter.description={
-                $regex:search,
-                $options:"i",
+            filter.description = {
+                $regex: search,
+                $options: "i",
             };
-            filter.owner.username={
-                $regex:owner,
-                $options:"i"
+            filter.owner.username = {
+                $regex: owner,
+                $options: "i"
             };
 
         }
-        let sortOption={};
-        switch(sort){
+        let sortOption = {};
+        switch (sort) {
             case "latest":
-                sortOption={createdAt:-1};
+                sortOption = { createdAt: -1 };
                 break;
             case "oldest":
-                sortOption={createdAt:1};
+                sortOption = { createdAt: 1 };
                 break;
-            
+
         }
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter)
@@ -251,7 +256,7 @@ export const PracticeVideo = async (req, res) => {
             new apiResponse(200, { videos, totalVideos, totalPages }, "The Video Feed Has Been Fetched")
         );
     } catch (error) {
-        throw new apiError(400,"Could'nt fetch ")
+        throw new apiError(400, "Could'nt fetch ")
     }
 }
 /*
@@ -261,26 +266,26 @@ Implement:
 GET /api/v1/videos/trending
 Requirements:
 PaginationOnly published videosSort by views (highest first)Return:videos currentPage totalVideos totalPages */
-export const Trending=async(req,res)=>{
+export const Trending = async (req, res) => {
     try {
 
-        const search=(req.query.search) || "";
-        const filter={};
-        if(search.trim()){
-            filter.title={
-                $regex:search,
-                $options:"i",
+        const search = (req.query.search) || "";
+        const filter = {};
+        if (search.trim()) {
+            filter.title = {
+                $regex: search,
+                $options: "i",
             };
         };
 
-        const [videos,totalVideos]= await Promise.all([
+        const [videos, totalVideos] = await Promise.all([
             Video.find(filter),
             Video.countDocuments(filter)
         ])
         return res.status(200).json(
-            new apiResponse(200, { videos, totalVideos}, "The Search Results Has Been Fetched")
+            new apiResponse(200, { videos, totalVideos }, "The Search Results Has Been Fetched")
         );
     } catch (error) {
-        throw new apiError(401,"Cannot really fetch the desired output")
+        throw new apiError(401, "Cannot really fetch the desired output")
     }
 }
