@@ -222,18 +222,29 @@ export const PracticeVideo = async (req, res) => {
         };
         if (search.trim()) {
             filter.$or = [
-                {title: {
-                    $regex: search,
-                    $options: "i"
-                }},
-                {description: {
-                    $regex: search,
-                    $options: "i"
-                }},
+                {
+                    title: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    description: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
             ];
         }
-        if(owner.trim()){
-            filter
+        if (owner.trim()) {
+            const user = await User.findOne({
+                username: owner
+            });
+
+            if (!user) {
+                
+            }
+            filter.owner = user._id;
         }
         let sortOption = {};
         switch (sort) {
