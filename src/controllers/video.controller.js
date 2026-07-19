@@ -213,18 +213,21 @@ export const PracticeVideo = async (req, res) => {
         const words = search.trim().split(/\s+/);
         const ownerToken = words.find(word => word.startsWith("o/"));
         if (ownerToken) {
-            owner = ownerToken.slice(2); 
+            owner = ownerToken.slice(2);
             search = words
                 .filter(word => word !== ownerToken)
                 .join(" ");
         }
-        const users = await User.find({
-            username: {
-                $regex: owner,
-                $options: "i"
-            }
-        });
-        const ownerIds = users.map(user => user._id);
+        let ownerIds = [];
+        if (owner.trim()) {
+            const users = await User.find({
+                username: {
+                    $regex: owner,
+                    $options: "i"
+                }
+            });
+            ownerIds = users.map(user => user._id);
+        }
         const filter = {
             isPublished: true,
         };
