@@ -222,23 +222,17 @@ export const PracticeVideo = async (req, res) => {
         };
         if (search.trim()) {
             filter.$or = [
-                {
-                    title: {
-                        $regex: search,
-                        $options: "i"
-                    }
-                },
-                {
-                    description: {
-                        $regex: search,
-                        $options: "i"
-                    }
-                },
-                {
-                    owner: {
-                        $in: ownerIds
-                    }
-                }
+                {title: {
+                    $regex: search,
+                    $options: "i"
+                }},
+                {description: {
+                    $regex: search,
+                    $options: "i"
+                }},
+                {owner: {
+                    $in: ownerIds
+                }}
             ];
         }
         let sortOption = {};
