@@ -206,7 +206,7 @@ export const PracticeVideo = async (req, res) => {
         const skip = (page - 1) * limit;
         const search= (req.query.search) || "";
         const sort= (req.query.sort) || "latest";
-        const owner={req.query.owner} || "";
+        const owner=(req.query.owner) || "";
         if (page < 1 || limit < 1 || limit > 12) {
             throw new apiError(401, "Invalid Query Parameters");
         }
