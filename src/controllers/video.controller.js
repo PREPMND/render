@@ -236,16 +236,6 @@ export const PracticeVideo = async (req, res) => {
                 },
             ];
         }
-        if (owner.trim()) {
-            const user = await User.findOne({
-                username: owner
-            });
-
-            if (!user) {
-                
-            }
-            filter.owner = user._id;
-        }
         let sortOption = {};
         switch (sort) {
             case "latest":
