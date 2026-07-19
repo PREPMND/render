@@ -187,18 +187,7 @@ export const deleteVideo = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-hey want:
-
-GET /api/v1/videos
-
-Supported query parameters:
-
-?page=1
-&limit=6
-&search=react
-&sort=latest
-&published=true
-Task 1 (Main)
+{/*Task 1 (Main)
 
 Implement the controller.
 
@@ -208,6 +197,7 @@ page default = 1
 limit default = 6
 search optional
 sort: latest oldest mostViewed published filter pagination return videos currentPage totalPages totalVideos hasNextPage hasPrevPage
+*/}
 export const PracticeVideo = async (req, res) => {
     
     try {
