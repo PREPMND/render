@@ -213,7 +213,9 @@ export const PracticeVideo = async (req, res) => {
         const words = search.trim().split(/\s+/);
         const ownerToken = words.find(word => word.startsWith("o/"));
         if (ownerToken) {
-            owner = ownerToken.slice(2);
+            if (ownerToken && ownerToken.length>2) {
+                owner=ownerToken.slice(2);
+            }
             search = words
                 .filter(word => word !== ownerToken)
                 .join(" ");
