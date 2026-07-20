@@ -52,13 +52,13 @@ export const createVideo = async (req, res) => {
         try {
             await elastic.index({
                 index: "videos",
-                id: video._id.toString(),
+                id: videoDoc._id.toString(),
                 document: {
-                    title: video.title,
-                    description: video.description,
-                    owner: video.owner.toString(),
-                    thumbnail: video.thumbnail,
-                    createdAt: video.createdAt,
+                    title: videoDoc.title,
+                    description: videoDoc.description,
+                    owner: videoDoc.owner.toString(),
+                    thumbnail: videoDoc.thumbnail,
+                    createdAt: videoDoc.createdAt,
                 },
             });
         } catch (err) {
