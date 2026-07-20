@@ -211,6 +211,14 @@ export const updateVideo = async (req, res) => {
         Object.assign(video, req.body);
         await video.save();
         await redis.del(`video:${video._id}`);
+        await elastic.update({
+    index: "videos",
+    id: video._id.toString(),
+    doc: {
+        title: video.title,
+        description: video.description
+    }
+});
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(keys);
@@ -236,6 +244,10 @@ export const deleteVideo = async (req, res) => {
 
         await video.deleteOne();
         await redis.del(`video:${video._id}`);
+        await elastic.delete({
+            index: "videos",
+            id: video._id.toString()
+        });
         const keys = await redis.keys("videos:*");
 
         if (keys.length > 0) {
