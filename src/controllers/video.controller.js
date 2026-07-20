@@ -18,10 +18,7 @@ export const any = asyncHandler(async (req, res) => {
 });
 export const createVideo = async (req, res) => {
     try {
-        const keys = await redis.keys("videos:*");
-        if (keys.length > 0) {
-            await redis.del(keys);
-        }
+        
         const { title, description } = req.body;
         
         const videoLocalPath = req.files?.videoFile?.[0]?.path;
@@ -49,7 +46,10 @@ export const createVideo = async (req, res) => {
             duration: Math.floor(videoUpload.duration),
             thumbnail: thumbnailUpload?.secure_url,
         });
-
+        const keys = await redis.keys("videos:*");
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
         res.status(201).json({ success: true, data: videoDoc });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
