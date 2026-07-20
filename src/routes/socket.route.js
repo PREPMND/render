@@ -15,7 +15,7 @@ routerSocket.use(verifyJWT);
 
 // Send a message
 routerSocket.post("/send",rateLimiter, sendMessage);
-routerVideo.patch(
+routerSocket.patch(
     "/seen/:reciever",
     verifyJWT,
     markMessagesAsSeen
