@@ -418,3 +418,64 @@ export const Trending = async (req, res) => {
         throw new apiError(401, "Cannot really fetch the desired output")
     }
 }
+
+
+export const createVideo = asyncHandler(async (req, res) => {
+    const { title, description } = req.body;
+
+    if (!title || !description) {
+        throw new ApiError(400, "Title and description are required");
+    }
+
+    const videoLocalPath = req.files?.videoFile?.[0]?.path;
+    const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
+
+    if (!videoLocalPath) {
+        throw new ApiError(400, "Video file is required");
+    }
+
+    if (!thumbnailLocalPath) {
+        throw new ApiError(400, "Thumbnail is required");
+    }
+
+    const uploadedVideo = await uploadOnCloudinary(videoLocalPath);
+    const uploadedThumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+
+    if (!uploadedVideo) {
+        throw new ApiError(500, "Video upload failed");
+    }
+
+    if (!uploadedThumbnail) {
+        throw new ApiError(500, "Thumbnail upload failed");
+    }
+
+    // Create MongoDB document
+    const video = await Video.create({
+        videoFile: uploadedVideo.secure_url,
+        thumbnail: uploadedThumbnail.secure_url,
+        title,
+        description,
+        duration: uploadedVideo.duration,
+        owner: req.user._id,
+    });
+
+    await elastic.index({
+        index: "videos",
+        id: video._id.toString(),
+        document: {
+            title: video.title,
+            description: video.description,
+            owner: video.owner.toString(),
+            thumbnail: video.thumbnail,
+            createdAt: video.createdAt,
+        },
+    });
+
+    return res.status(201).json(
+        new ApiResponse(
+            201,
+            video,
+            "Video uploaded successfully"
+        )
+    );
+});
