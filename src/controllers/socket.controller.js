@@ -100,7 +100,7 @@ export const getConversations = asyncHandler(async (req, res) => {
                 }
             },
             {
-                
+                $sort:{createdAt:-1}
             }
 
         ]);
