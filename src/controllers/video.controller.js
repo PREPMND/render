@@ -19,7 +19,10 @@ export const any = asyncHandler(async (req, res) => {
 export const createVideo = async (req, res) => {
     try {
         const { title, description } = req.body;
-
+        const keys = await redis.keys("videos:*");
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
         const videoLocalPath = req.files?.videoFile?.[0]?.path;
         const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
 
