@@ -198,6 +198,7 @@ export const updateVideo = async (req, res) => {
 
         Object.assign(video, req.body);
         await video.save();
+        await redis.del(`video:${video._id}`);
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(keys);
