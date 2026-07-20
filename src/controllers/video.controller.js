@@ -468,17 +468,6 @@ export const createVideo = asyncHandler(async (req, res) => {
         console.error("Elasticsearch indexing failed:", err.message);
     }
 
-    await elastic.index({
-        index: "videos",
-        id: video._id.toString(),
-        document: {
-            title: video.title,
-            description: video.description,
-            owner: video.owner.toString(),
-            thumbnail: video.thumbnail,
-            createdAt: video.createdAt,
-        },
-    });
 
     return res.status(201).json(
         new ApiResponse(
