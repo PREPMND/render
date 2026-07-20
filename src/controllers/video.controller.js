@@ -49,17 +49,21 @@ export const createVideo = async (req, res) => {
             duration: Math.floor(videoUpload.duration),
             thumbnail: thumbnailUpload?.secure_url,
         });
-        await elastic.index({
-            index: "videos",
-            id: videoDoc._id.toString(),
-            document: {
-                title: videoDoc.title,
-                description: videoDoc.description,
-                owner: videoDoc.owner,
-                thumbnail: videoDoc.thumbnail,
-                createdAt: videoDoc.createdAt,
-            },
-        });
+        try {
+            await elastic.index({
+                index: "videos",
+                id: video._id.toString(),
+                document: {
+                    title: video.title,
+                    description: video.description,
+                    owner: video.owner.toString(),
+                    thumbnail: video.thumbnail,
+                    createdAt: video.createdAt,
+                },
+            });
+        } catch (err) {
+            console.error("Elasticsearch indexing failed:", err.message);
+        }
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(keys);
@@ -452,7 +456,7 @@ export const creaideo = asyncHandler(async (req, res) => {
     }
 
     // Create MongoDB document
-    
+
 
 
     return res.status(201).json(
