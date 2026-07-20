@@ -424,46 +424,48 @@ export const Trending = async (req, res) => {
         throw new apiError(401, "Cannot really fetch the desired output")
     }
 }
+export const searchElastic = async (req, res) => {
+    try {
 
+        const { q } = req.query;
 
-export const creaideo = asyncHandler(async (req, res) => {
-    const { title, description } = req.body;
+        if (!q || !q.trim()) {
+            return res.status(400).json({
+                success: false,
+                message: "Search query is required"
+            });
+        }
 
-    if (!title || !description) {
-        throw new ApiError(400, "Title and description are required");
+        const result = await elastic.search({
+            index: "videos",
+            query: {
+                multi_match: {
+                    query: q,
+                    fields: [
+                        "title^2",
+                        "description"
+                    ],
+                    fuzziness: "AUTO"
+                }
+            }
+        });
+
+        const videos = result.hits.hits.map(hit => ({
+            _id: hit._id,
+            ...hit._source
+        }));
+
+        return res.status(200).json({
+            success: true,
+            data: videos
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
     }
-
-    const videoLocalPath = req.files?.videoFile?.[0]?.path;
-    const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
-
-    if (!videoLocalPath) {
-        throw new ApiError(400, "Video file is required");
-    }
-
-    if (!thumbnailLocalPath) {
-        throw new ApiError(400, "Thumbnail is required");
-    }
-
-    const uploadedVideo = await uploadOnCloudinary(videoLocalPath);
-    const uploadedThumbnail = await uploadOnCloudinary(thumbnailLocalPath);
-
-    if (!uploadedVideo) {
-        throw new ApiError(500, "Video upload failed");
-    }
-
-    if (!uploadedThumbnail) {
-        throw new ApiError(500, "Thumbnail upload failed");
-    }
-
-    // Create MongoDB document
-
-
-
-    return res.status(201).json(
-        new ApiResponse(
-            201,
-            video,
-            "Video uploaded successfully"
-        )
-    );
-});
+};
