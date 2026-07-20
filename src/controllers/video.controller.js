@@ -47,6 +47,17 @@ export const createVideo = async (req, res) => {
             duration: Math.floor(videoUpload.duration),
             thumbnail: thumbnailUpload?.secure_url,
         });
+        await elastic.index({
+            index: "videos",
+            id: videoDoc._id.toString(),
+            document: {
+                title: videoDoc.title,
+                description: videoDoc.description,
+                owner: videoDoc.owner,
+                thumbnail: videoDoc.thumbnail,
+                createdAt: videoDoc.createdAt,
+            },
+        });
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(keys);
@@ -115,7 +126,7 @@ export const getVideos = async (req, res) => {
         };
 
         const videos = await Video.aggregatePaginate(aggregate, options);
-        
+
         function formatDuration(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
