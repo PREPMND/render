@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import redi
+import redis from "../utils/redisClient.js";
 import { Video } from "../models/video.models.js"; // adjust path if needed
 import { User } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js"; // adjust path if needed
