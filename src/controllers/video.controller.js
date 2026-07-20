@@ -110,7 +110,16 @@ export const getVideos = async (req, res) => {
         };
 
         const videos = await Video.aggregatePaginate(aggregate, options);
-
+        await redis.set(
+            cacheKey,
+            JSON.stringify({
+                success: true,
+                data: videos
+            }),
+            {
+                EX: 300
+            }
+        );
         function formatDuration(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
