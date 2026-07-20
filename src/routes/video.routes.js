@@ -25,7 +25,7 @@ routerVideo.post("/createvideo", verifyJWT,rateLimiter,
 routerVideo.post("/any",cache(300), any);
 routerVideo.get("/getvideos",cache(300), getVideos);
 console.log("Practice route registered");
-router.patch(
+routerVideo.patch(
     "/seen/:reciever",
     verifyJWT,
     markMessagesAsSeen
