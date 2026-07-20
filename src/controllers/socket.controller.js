@@ -100,7 +100,7 @@ export const getConversations = asyncHandler(async (req, res) => {
                 }
             },
             {
-                $sort:{createdAt:-1}
+                $sort: { createdAt: -1 }
             }
 
         ]);
@@ -147,21 +147,27 @@ export const markMessagesAsSeen = async (req, res) => {
     try {
 
         const { conversationId } = req.params;
-        const io = req.app.get("io");
+
         const receiver = req.user._id;
 
         await Message.updateMany(
             {
                 conversationId,
-                receiver,
-                status: "sent"
+                receiver: req.user._id,
+                status: "sent",
             },
             {
                 $set: {
-                    status: "seen"
-                }
+                    status: "seen",
+                },
             }
         );
+
+        const io = req.app.get("io");
+
+        io.to(conversationId).emit("messages-seen", {
+            conversationId,
+        });
 
         return res.status(200).json({
             success: true,
