@@ -198,7 +198,10 @@ export const updateVideo = async (req, res) => {
 
         Object.assign(video, req.body);
         await video.save();
-
+        const keys = await redis.keys("videos:*");
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
         res.status(200).json({ success: true, data: video });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
