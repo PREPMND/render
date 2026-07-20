@@ -140,3 +140,37 @@ export const getMessages = asyncHandler(async (req, res) => {
     );
 
 });
+export const markMessagesAsSeen = async (req, res) => {
+    try {
+
+        const { conversationId } = req.params;
+
+        const receiver = req.user._id;
+
+        await Message.updateMany(
+            {
+                conversationId,
+                receiver,
+                status: "sent"
+            },
+            {
+                $set: {
+                    status: "seen"
+                }
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Messages marked as seen"
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+};
