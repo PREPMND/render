@@ -56,7 +56,14 @@ export const getVideos = async (req, res) => {
     try {
         const { page = 1, limit = 6 } = req.query;
         const sort = req.query.sort || "latest";
+        const cacheKey = `videos:${page}:${limit}:${sort}`;
+        const cachedVideos = await redis.get(cacheKey);
 
+        if (cachedVideos) {
+            console.log("Cache Hit");
+
+            return res.status(200).json(JSON.parse(cachedVideos));
+        }
         let sortOption = {};
         switch (sort) {
             case "latest":
