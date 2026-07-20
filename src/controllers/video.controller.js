@@ -18,9 +18,9 @@ export const any = asyncHandler(async (req, res) => {
 });
 export const createVideo = async (req, res) => {
     try {
-        
+
         const { title, description } = req.body;
-        
+
         const videoLocalPath = req.files?.videoFile?.[0]?.path;
         const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
 
@@ -223,7 +223,12 @@ export const deleteVideo = async (req, res) => {
         }
 
         await video.deleteOne();
+        await redis.del(`video:${video._id}`);
+        const keys = await redis.keys("videos:*");
 
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
         res.status(200).json({ success: true, message: "Video deleted successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
