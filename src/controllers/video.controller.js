@@ -163,7 +163,16 @@ export const getVideoById = async (req, res) => {
         if (!video) {
             return res.status(404).json({ success: false, message: "Video not found" });
         }
-
+        await redis.set(
+            cacheKey,
+            JSON.stringify({
+                success: true,
+                data: video
+            }),
+            {
+                EX: 300
+            }
+        );
         res.status(200).json({ success: true, data: video });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
