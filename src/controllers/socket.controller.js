@@ -90,7 +90,7 @@ export const getConversations = asyncHandler(async (req, res) => {
                     conversationId: "$lastMessage.conversationId",
                     lastMessage: "$lastMessage.text",
                     createdAt: "$lastMessage.createdAt",
-                    lastSeen:"$lastMessage.seen",
+                    lastSeen:"$lastMessage.lastSeen",
                     otherUser: {
                         _id: "$otherUser._id",
                         username: "$otherUser.username",
