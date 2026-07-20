@@ -422,7 +422,7 @@ export const Trending = async (req, res) => {
 }
 
 
-export const createVideo = asyncHandler(async (req, res) => {
+export const creaideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
 
     if (!title || !description) {
@@ -452,21 +452,7 @@ export const createVideo = asyncHandler(async (req, res) => {
     }
 
     // Create MongoDB document
-    try {
-        await elastic.index({
-            index: "videos",
-            id: video._id.toString(),
-            document: {
-                title: video.title,
-                description: video.description,
-                owner: video.owner.toString(),
-                thumbnail: video.thumbnail,
-                createdAt: video.createdAt,
-            },
-        });
-    } catch (err) {
-        console.error("Elasticsearch indexing failed:", err.message);
-    }
+    
 
 
     return res.status(201).json(
