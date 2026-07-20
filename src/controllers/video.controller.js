@@ -66,7 +66,7 @@ export const createVideo = async (req, res) => {
         }
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
-            await redis.del(keys);
+            await redis.del(...keys);
         }
         res.status(201).json({ success: true, data: videoDoc });
     } catch (error) {
