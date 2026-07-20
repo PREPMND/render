@@ -452,14 +452,21 @@ export const createVideo = asyncHandler(async (req, res) => {
     }
 
     // Create MongoDB document
-    const video = await Video.create({
-        videoFile: uploadedVideo.secure_url,
-        thumbnail: uploadedThumbnail.secure_url,
-        title,
-        description,
-        duration: uploadedVideo.duration,
-        owner: req.user._id,
-    });
+    try {
+        await elastic.index({
+            index: "videos",
+            id: video._id.toString(),
+            document: {
+                title: video.title,
+                description: video.description,
+                owner: video.owner.toString(),
+                thumbnail: video.thumbnail,
+                createdAt: video.createdAt,
+            },
+        });
+    } catch (err) {
+        console.error("Elasticsearch indexing failed:", err.message);
+    }
 
     await elastic.index({
         index: "videos",
