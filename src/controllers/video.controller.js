@@ -141,6 +141,15 @@ export const getVideos = async (req, res) => {
 // Get single video by ID
 export const getVideoById = async (req, res) => {
     try {
+        const cacheKey = `video:${req.params.id}`;
+
+        const cachedVideo = await redis.get(cacheKey);
+
+        if (cachedVideo) {
+            console.log("Video Cache Hit");
+
+            return res.status(200).json(JSON.parse(cachedVideo));
+        }
         const video = await Video.findById(req.params.id).populate("owner", "username avatar email");
         function formatDuration(seconds) {
             const hours = Math.floor(seconds / 3600);
