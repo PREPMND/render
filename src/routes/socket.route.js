@@ -16,7 +16,7 @@ routerSocket.use(verifyJWT);
 // Send a message
 routerSocket.post("/send",rateLimiter, sendMessage);
 routerSocket.patch(
-    "/seen/:reciever",
+    "/seen/:conversationId",
     verifyJWT,
     markMessagesAsSeen
 );
