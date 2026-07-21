@@ -558,7 +558,7 @@ export const BackendScale = (req, res) => {
     }
     const search = (req.query.search) || "";
 
-    const result = Solve(page, limit, sort, search);
+    const [video,] = Solve(page, limit, sort, search);
     return res.status(200).json(
         new apiResponse(200, { result }, "the operation is successfull")
     );
