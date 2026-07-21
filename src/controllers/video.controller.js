@@ -482,12 +482,12 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-export const BackendScale=()=>{
+export const BackendScale=(req,res)=>{
     const page=(req.query.page) || 1;
     const limit=(req.query.limit) || 6;
     const sort=(req.query.sort) || "latest";
     const search=(req.query.search) || "";
 
     const result=Solve(page,limit,sort,search);
-    return res
+    return res.status(200)
 }
