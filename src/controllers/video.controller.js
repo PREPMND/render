@@ -543,7 +543,7 @@ const Solve = async(page, limit, sort, search) => {
     ])
     return [videos,totalVideos];
 }
-export const BackendScale = (req, res) => {
+export const BackendScale =async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     if (page < 1) {
         throw new apiError(401, "Page paramters are wrong.");
@@ -558,7 +558,7 @@ export const BackendScale = (req, res) => {
     }
     const search = (req.query.search) || "";
 
-    const [videos,totalVideos] = Solve(page, limit, sort, search);
+    const [videos,totalVideos] =await Solve(page, limit, sort, search);
     return res.status(200).json(
         new apiResponse(200, { videos, totalVideos}, "the operation is successfull")
     );
