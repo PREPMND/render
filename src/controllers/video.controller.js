@@ -501,6 +501,7 @@ const Solve = (page, limit, sort, search) => {
                 $options:"i"
             }
         })
+        ownerIds
     }
     let owner = "";
     const words = search.trim().split(/\s+/);
