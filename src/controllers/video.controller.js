@@ -492,7 +492,7 @@ export const BackendScale=(req,res)=>{
         throw new apiError(401,"Limit paramters are wrong.");
     }
     const sort=(req.query.sort) || "latest";
-    if(sort)
+    if(sort!=="latest" || sort!=="oldest")
     const search=(req.query.search) || "";
 
     const result=Solve(page,limit,sort,search);
