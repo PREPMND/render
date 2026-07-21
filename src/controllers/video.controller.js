@@ -483,5 +483,5 @@ export const searchElastic = async (req, res) => {
     }
 };
 export const BackendScale=()=>{
-    const page=(req.quer)
+    const page=(req.query.page) || 1;
 }
