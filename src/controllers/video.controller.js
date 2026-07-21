@@ -489,7 +489,7 @@ const Solve = (page, limit, sort, search) => {
     const ownerToken=words.find(word=>word.startsWith("o/"));
     if(ownerToken){
         if(ownerToken.length>2){
-            owner =ownerToken
+            owner =ownerToken.slice(2);
         }
         search=words.filter(word=>word !==ownerToken).join(" ");
     }
