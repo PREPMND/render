@@ -497,7 +497,8 @@ const Solve = (page, limit, sort, search) => {
     if(owner.trim()){
         const users=await User.find({
             username:{
-                $regex
+                $regex:owner,
+                $options:"i"
             }
         })
     }
