@@ -501,7 +501,7 @@ const Solve = (page, limit, sort, search) => {
                 $options:"i"
             }
         })
-        ownerIds
+        ownerIds=users.map(user=>user)
     }
     let owner = "";
     const words = search.trim().split(/\s+/);
