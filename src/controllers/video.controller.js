@@ -482,8 +482,8 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-const Solve=>(page,limit,sort,search){
-
+const Solve=(page,limit,sort,search)=>{
+    
 }
 export const BackendScale=(req,res)=>{
     const page=parseInt(req.query.page) || 1;
