@@ -483,6 +483,7 @@ export const searchElastic = async (req, res) => {
     }
 };
 const Solve=(page,limit,sort,search)=>{
+    const skip=(page-1)*limit;
     
 }
 export const BackendScale=(req,res)=>{
