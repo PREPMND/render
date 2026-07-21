@@ -496,7 +496,7 @@ export const BackendScale=(req,res)=>{
         throw new apiError(401,"Sort paramters are wrong.");
     }
     const search=(req.query.search) || "";
-
+    
     const result=Solve(page,limit,sort,search);
     return res.status(200).json(
         new apiResponse(200,{result},"the operation is successfull")
