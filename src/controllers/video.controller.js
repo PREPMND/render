@@ -482,4 +482,6 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-export const BackendScale
+export const BackendScale=()=>{
+    
+}
