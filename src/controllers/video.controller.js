@@ -484,7 +484,7 @@ export const searchElastic = async (req, res) => {
 };
 const Solve = (page, limit, sort, search) => {
     const skip = (page - 1) * limit;
-    const o
+    const words = search.trim().spl
     let owner = "";
     const words = search.trim().split(/\s+/);
     const ownerToken = words.find(word => word.startsWith("o/"));
