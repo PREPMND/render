@@ -503,27 +503,7 @@ const Solve = (page, limit, sort, search) => {
         })
         ownerIds=users.map(user=>user._id);
     }
-    let owner = "";
-    const words = search.trim().split(/\s+/);
-    const ownerToken = words.find(word => word.startsWith("o/"));
-    if (ownerToken) {
-        if (ownerToken && ownerToken.length > 2) {
-            owner = ownerToken.slice(2);
-        }
-        search = words
-            .filter(word => word !== ownerToken)
-            .join(" ");
-    }
-    let ownerIds = [];
-    if (owner.trim()) {
-        const users = await User.find({
-            username: {
-                $regex: owner,
-                $options: "i"
-            }
-        });
-        ownerIds = users.map(user => user._id);
-    }
+    
 
 }
 export const BackendScale = (req, res) => {
