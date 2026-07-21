@@ -9,16 +9,9 @@ import { MongoConnection } from "./db/index.js";
 import { application } from "./app.js";
     
 
-  throw new Error("Elasticsearch did not start in time");
 
 MongoConnection();
 await connectRedis();
-await waitForElastic();
-try {
-    await createIndex();
-} catch (err) {
-    console.error("Elasticsearch not ready:", err.message);
-}
 application.use((req, res, next) => {
     next();
 });
