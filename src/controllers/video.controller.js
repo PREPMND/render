@@ -488,6 +488,9 @@ export const BackendScale=(req,res)=>{
         throw new apiError(401,"Page paramters are wrong.");
     }
     const limit=parseInt(req.query.limit) || 6;
+    if(limit>10){
+        throw new apiError(401,"Limit paramters are wrong.");
+    }
     const sort=(req.query.sort) || "latest";
     const search=(req.query.search) || "";
 
