@@ -488,5 +488,6 @@ export const BackendScale=()=>{
     const sort=(req.query.sort) || "latest";
     const search=(req.query.search) || "";
 
-    const result=Solve(page,)
+    const result=Solve(page,limit,sort,search);
+    
 }
