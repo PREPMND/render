@@ -489,5 +489,5 @@ export const BackendScale=()=>{
     const search=(req.query.search) || "";
 
     const result=Solve(page,limit,sort,search);
-    
+    return res
 }
