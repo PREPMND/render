@@ -482,27 +482,48 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-const Solve=(page,limit,sort,search)=>{
-    const skip=(page-1)*limit;
-    
-}
-export const BackendScale=(req,res)=>{
-    const page=parseInt(req.query.page) || 1;
-    if(page<1){
-        throw new apiError(401,"Page paramters are wrong.");
+const Solve = (page, limit, sort, search) => {
+    const skip = (page - 1) * limit;
+    let owner = "";
+    const words = search.trim().split(/\s+/);
+    const ownerToken = words.find(word => word.startsWith("o/"));
+    if (ownerToken) {
+        if (ownerToken && ownerToken.length > 2) {
+            owner = ownerToken.slice(2);
+        }
+        search = words
+            .filter(word => word !== ownerToken)
+            .join(" ");
     }
-    const limit=parseInt(req.query.limit) || 6;
-    if(limit>10){
-        throw new apiError(401,"Limit paramters are wrong.");
+    let ownerIds = [];
+    if (owner.trim()) {
+        const users = await User.find({
+            username: {
+                $regex: owner,
+                $options: "i"
+            }
+        });
+        ownerIds = users.map(user => user._id);
     }
-    const sort=(req.query.sort) || "latest";
-    if(sort!=="latest" || sort!=="oldest"){
-        throw new apiError(401,"Sort paramters are wrong.");
-    }
-    const search=(req.query.search) || "";
 
-    const result=Solve(page,limit,sort,search);
+}
+export const BackendScale = (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    if (page < 1) {
+        throw new apiError(401, "Page paramters are wrong.");
+    }
+    const limit = parseInt(req.query.limit) || 6;
+    if (limit > 10) {
+        throw new apiError(401, "Limit paramters are wrong.");
+    }
+    const sort = (req.query.sort) || "latest";
+    if (sort !== "latest" || sort !== "oldest") {
+        throw new apiError(401, "Sort paramters are wrong.");
+    }
+    const search = (req.query.search) || "";
+
+    const result = Solve(page, limit, sort, search);
     return res.status(200).json(
-        new apiResponse(200,{result},"the operation is successfull")
+        new apiResponse(200, { result }, "the operation is successfull")
     );
 }
