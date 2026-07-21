@@ -6,8 +6,23 @@ dotenv.config({
 })
 import { MongoConnection } from "./db/index.js";
 import { application } from "./app.js";
+async function waitForElastic(retries = 30) {
+  while (retries--) {
+    try {
+      await elastic.info();
+      console.log("Elasticsearch is ready");
+      return;
+    } catch {
+      console.log("Waiting for Elasticsearch...");
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
+  throw new Error("Elasticsearch did not start in time");
+}
+
 MongoConnection();
 await connectRedis();
+await waitForElastic();
 try {
     await createIndex();
 } catch (err) {
