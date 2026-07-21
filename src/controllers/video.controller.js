@@ -488,7 +488,8 @@ const Solve = (page, limit, sort, search) => {
     let owner="";
     const ownerToken=words.find(word=>word.startsWith("o/"));
     if(ownerToken){
-        search
+        search=words
+        .filter
     }
     let owner = "";
     const words = search.trim().split(/\s+/);
