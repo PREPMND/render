@@ -538,7 +538,7 @@ const Solve = (page, limit, sort, search) => {
 
     }
     const [videos,totalVideos]=await Promise.all([
-        Video.find(filter)
+        Video.find(filter).sort(sortOption).
     ])
 }
 export const BackendScale = (req, res) => {
