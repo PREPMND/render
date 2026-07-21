@@ -49,7 +49,23 @@ export const createVideo = async (req, res) => {
             duration: Math.floor(videoUpload.duration),
             thumbnail: thumbnailUpload?.secure_url,
         });
-        {/*}
+        {/* if (elastic) {
+            try {
+                await elastic.index({
+                    index: "videos",
+                    id: videoDoc._id.toString(),
+                    document: {
+                        title: videoDoc.title,
+                        description: videoDoc.description,
+                        owner: videoDoc.owner.toString(),
+                        thumbnail: videoDoc.thumbnail,
+                        createdAt: videoDoc.createdAt,
+                    },
+                });
+            } catch (err) {
+                console.error("Elasticsearch indexing failed:", err.message);
+            }
+        }*/}
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(...keys);
