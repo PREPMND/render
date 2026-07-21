@@ -219,20 +219,7 @@ export const updateVideo = async (req, res) => {
         Object.assign(video, req.body);
         await video.save();
         await redis.del(`video:${video._id}`);
-        if (elastic) {
-            try {
-                await elastic.update({
-                    index: "videos",
-                    id: video._id.toString(),
-                    doc: {
-                        title: video.title,
-                        description: video.description,
-                    },
-                });
-            } catch (err) {
-                console.error("Elastic update failed:", err.message);
-            }
-        }
+        {/* }
         const keys = await redis.keys("videos:*");
         if (keys.length > 0) {
             await redis.del(keys);
