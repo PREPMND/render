@@ -558,7 +558,7 @@ export const BackendScale =async (req, res) => {
     }
     const search = (req.query.search) || "";
 
-    const [videos,totalVideos] =await Solve(page, limit, sort, search);
+    const [videos,totalVideos] =await Solve({page, limit, sort, search});
     return res.status(200).json(
         new apiResponse(200, { videos, totalVideos}, "the operation is successfull")
     );
