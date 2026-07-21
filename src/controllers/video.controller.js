@@ -553,7 +553,7 @@ export const BackendScale =async (req, res) => {
         throw new apiError(401, "Limit paramters are wrong.");
     }
     const sort = (req.query.sort) || "latest";
-    if (sort !== "latest" || sort !== "oldest") {
+    if (sort !== "latest" && sort !== "oldest") {
         throw new apiError(401, "Sort paramters are wrong.");
     }
     const search = (req.query.search) || "";
