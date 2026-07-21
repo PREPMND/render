@@ -485,26 +485,58 @@ export const searchElastic = async (req, res) => {
 const Solve = (page, limit, sort, search) => {
     const skip = (page - 1) * limit;
     const words = search.trim().split(/\s+/);
-    let owner="";
-    const ownerToken=words.find(word=>word.startsWith("o/"));
-    if(ownerToken){
-        if(ownerToken.length>2){
-            owner=ownerToken.slice(2);
+    let owner = "";
+    const ownerToken = words.find(word => word.startsWith("o/"));
+    if (ownerToken) {
+        if (ownerToken.length > 2) {
+            owner = ownerToken.slice(2);
         }
-        search=words.filter(word=>word !==ownerToken).join(" ");
+        search = words.filter(word => word !== ownerToken).join(" ");
     }
-    let ownerIds=[];
-    if(owner.trim()){
-        const users=await User.find({
-            username:{
-                $regex:owner,
-                $options:"i"
+    let ownerIds = [];
+    if (owner.trim()) {
+        const users = await User.find({
+            username: {
+                $regex: owner,
+                $options: "i"
             }
         })
-        ownerIds=users.map(user=>user._id);
+        ownerIds = users.map(user => user._id);
     }
-    
+    const filter = {
+        isPublished: true,
+    };
+    if (search.trim()) {
+        filter.$or = [
+            {
+                title: {
+                    $regex: search,
+                    $options: "i"
+                }
+            },
+            {
+                description: {
+                    $regex: search,
+                    $options: "i"
+                }
+            },
+        ];
+    }
+    if (owner.trim()) {
+        filter.owner = {
+            $in: ownerIds,
+        }
+    }
+    let sortOption = {};
+    switch (sort) {
+        case "latest":
+            sortOption = { createdAt: -1 };
+            break;
+        case "oldest":
+            sortOption = { createdAt: 1 };
+            break;
 
+    }
 }
 export const BackendScale = (req, res) => {
     const page = parseInt(req.query.page) || 1;
