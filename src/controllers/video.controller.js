@@ -485,5 +485,6 @@ export const searchElastic = async (req, res) => {
 export const BackendScale=()=>{
     const page=(req.query.page) || 1;
     const limit=(req.query.limit) || 6;
-    const sort=(req.query.sort) || "latest"
+    const sort=(req.query.sort) || "latest";
+    const search=(req.)
 }
