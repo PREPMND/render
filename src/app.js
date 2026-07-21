@@ -25,7 +25,6 @@ import routerSocket from "./routes/socket.route.js"
 application.use("/api/v1/socket",routerSocket)
 application.get("/test-cookie", (req, res) => {
     console.log(req.headers.cookie);
-    console.log(req.cookies);
 
     res.json({
         headers: req.headers.cookie,
