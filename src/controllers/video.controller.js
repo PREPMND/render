@@ -258,7 +258,16 @@ export const deleteVideo = async (req, res) => {
 
         await video.deleteOne();
         await redis.del(`video:${video._id}`);
-        {}
+        {/*if (elastic) {
+            try {
+                await elastic.delete({
+                    index: "videos",
+                    id: video._id.toString(),
+                });
+            } catch (err) {
+                console.error("Elastic delete failed:", err.message);
+            }
+        }*/ }
         const keys = await redis.keys("videos:*");
 
         if (keys.length > 0) {
