@@ -482,7 +482,7 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-const Solve = (page, limit, sort, search) => {
+const Solve = async(page, limit, sort, search) => {
     const skip = (page - 1) * limit;
     const words = search.trim().split(/\s+/);
     let owner = "";
