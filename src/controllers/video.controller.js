@@ -493,6 +493,7 @@ const Solve = (page, limit, sort, search) => {
         }
         search=words.filter(word=>word !==ownerToken).join(" ");
     }
+    let ownerIds=[];
     
     let owner = "";
     const words = search.trim().split(/\s+/);
