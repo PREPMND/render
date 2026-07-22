@@ -648,5 +648,5 @@ export const buildVideoQuery = async (req, res) => {
     };
 }
 export const getVideosService=async(req,res)=>{
-    const {page:pageNumber,limit:limitNumber,skip,filter,sort:sortOption}=
+    const {page:pageNumber,limit:limitNumber,skip,filter,sort:sortOption}=buildVideo
 }
