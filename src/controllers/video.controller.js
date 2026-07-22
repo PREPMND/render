@@ -588,7 +588,7 @@ export const buildVideoQuery =async (req,res) => {
                     $options:"i",
                 }
             })
-            ownerIds.map(Ids=>)
+            ownerIds.map(user=> user._id);
         }
 
         
