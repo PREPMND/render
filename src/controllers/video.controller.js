@@ -436,7 +436,7 @@ PaginationOnly published videosSort by views (highest first)Return:videos curren
     } catch (error) {
         throw new apiError(401, "Cannot really fetch the desired output")
     }
-}/}
+}*/}
 export const searchElastic = async (req, res) => {
     try {
 
