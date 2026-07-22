@@ -516,7 +516,8 @@ const Solve = async({page, limit, sort, search}) => {
             },
             {
                 description:{
-                    $regex
+                    $regex:search,
+                    $otio
                 }
             }
         ]
