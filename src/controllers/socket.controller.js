@@ -30,6 +30,9 @@ export const sendMessage = asyncHandler(async (req, res) => {
     console.log(message)
     await redis.del(`conversations:${sender}`);
     await redis.del(`conversations:${receiver}`);
+    console.log("Deleting cache...");
+await redis.del(`conversations:${sender}`);
+console.log("Deleted");
     return res.status(201).json(
         new apiResponse(201, message, "Message sent successfully")
     );
