@@ -603,8 +603,7 @@ export const buildVideoQuery =async (req,res) => {
                 }}
             ]
         }
-        if(owner.trim()){
-            
+        if(ownerIds.length>0){
         }
 
         
