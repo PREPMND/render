@@ -508,7 +508,7 @@ const Solve = async({page, limit, sort, search}) => {
     const ownerToken= words.find(word=>word.startsWith("o/"));
     if(ownerToken){
         if(ownerToken.length>2){
-            
+            owner=owner
         }
     }
 
