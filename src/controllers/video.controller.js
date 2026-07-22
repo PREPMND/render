@@ -605,7 +605,7 @@ export const buildVideoQuery =async (req,res) => {
         }
         if(ownerIds.length>0){
             filter.username={
-                
+                $in:ownerIds
             }
         }
 
