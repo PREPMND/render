@@ -651,7 +651,8 @@ export const getVideosService=async(req,res)=>{
     const {page:pageNumber,limit:limitNumber,skip,filter,sort:sortOption}=
     buildVideoQuery(req.query);
     const [videos,totalVideos]= await Promise.all([
-        Video.find(filter).skip(skip).sort(sort),
+        Video.find(filter).skip(skip).limit(limit).sort(sort),
         Video.countDocuments(filter)
     ])
+    
 }
