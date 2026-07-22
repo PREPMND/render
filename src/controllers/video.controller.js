@@ -592,9 +592,9 @@ export const buildVideoQuery =async (req,res) => {
         }
         if(search.trim()){
             filter.$or={
-                {
-                    title:
-                }
+                title:{
+                    $regex
+                },
             }
         }
 
