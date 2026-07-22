@@ -507,7 +507,11 @@ const Solve = async({page, limit, sort, search}) => {
         isPublished:true,
     }
     if(search.trim()){
-        filter.$or
+        filter.$or=[
+            {
+                title
+            }
+        ]
     }
     const filter = {
         isPublished: true,
