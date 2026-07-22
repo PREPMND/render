@@ -647,7 +647,7 @@ export const buildVideoQuery = async (query) => {
         sortOption
     };
 }
-export const getVideosService = async (req, res) => {
+export const getVideosService = async (req) => {
     const { page: pageNumber, limit: limitNumber, skip, filter, sort: sortOption } =
        await buildVideoQuery(req.query);
     const [videos, totalVideos] = await Promise.all([
