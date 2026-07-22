@@ -648,7 +648,7 @@ export const buildVideoQuery = async (query) => {
             sortOption
         };
     } catch (error) {
-        
+        throw new
     }
 }
 export const getVideosService = async (req) => {
