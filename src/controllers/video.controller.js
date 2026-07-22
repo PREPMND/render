@@ -579,5 +579,6 @@ export const buildVideoQuery = () => {
         createdAfter,
         createdBefore }=req.query;
         const filter={};
+        const skip=
         
 }
