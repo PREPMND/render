@@ -608,7 +608,7 @@ export const buildVideoQuery =async (req,res) => {
                 $in:ownerIds,
             }
         }
-        const sortOption={};
+        let sortOption={};
         switch (sort){
             case "latest":
                 sortOption={createdAt:-1};
