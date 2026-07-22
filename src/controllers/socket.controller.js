@@ -25,7 +25,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
         conversationId,
         text,
         messageType,
-     });
+    });
     // console.log("fwg");
     // console.log(message)
     // const a=await redis.del(`conversations:${toString(sender)}`);
@@ -45,7 +45,11 @@ export const getConversations = asyncHandler(async (req, res) => {
     try {
         //const cacheKey = `conversations:${req.user._id.toString()}`;
         //const cached = await redis.get(cacheKey);
+        const cacheKey = `conversations:${req.user._id.toString()}`;
+        console.log("GET KEY:", cacheKey);
 
+        const cached = await redis.get(cacheKey);
+        console.log("GET RESULT:", cached ? "HIT" : "MISS");
         // if (cached) {
         //     return res.status(200).json(
         //         new apiResponse(
