@@ -39,6 +39,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
 });
 
 export const getConversations = asyncHandler(async (req, res) => {
+    console.log("===== GET CONVERSATIONS =====");
     const userId = new mongoose.Types.ObjectId(req.user._id);
 
     try {
