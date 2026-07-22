@@ -633,7 +633,7 @@ export const buildVideoQuery = async (req, res) => {
     }
     if(createdAfter || createdBefore){
         filter.createdAt={};
-        if(createdAfter) filter.createdAt.$gte
+        if(createdAfter) filter.createdAt.$gte=new Date()
     }
 
 }
