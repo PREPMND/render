@@ -626,19 +626,19 @@ export const buildVideoQuery = async (query) => {
 
         if (maxViews) filter.views.$lte = Number(maxViews);
     }
-    if(maxDuration || minDuration){
-        filter.duration={};
-        if(minDuration) filter.duration.$gte=Number(minViews);
-        if(maxDuration) filter.duration.$lte=Number(maxViews);
+    if (maxDuration || minDuration) {
+        filter.duration = {};
+        if (minDuration) filter.duration.$gte = Number(minViews);
+        if (maxDuration) filter.duration.$lte = Number(maxViews);
     }
-    if(createdAfter || createdBefore){
-        filter.createdAt={};
-        if(createdAfter) filter.createdAt.$gte=new Date(createdAfter);
-        if(createdBefore) filter.createdAt.$lte=new Date(createdBefore);
+    if (createdAfter || createdBefore) {
+        filter.createdAt = {};
+        if (createdAfter) filter.createdAt.$gte = new Date(createdAfter);
+        if (createdBefore) filter.createdAt.$lte = new Date(createdBefore);
     }
-    const pageNumber=Number(page);
-    const limitNumber=Number(limit);
-    const skip=(pageNumber-1)*limitNumber;
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+    const skip = (pageNumber - 1) * limitNumber;
     return {
         pageNumber,
         limitNumber,
@@ -647,13 +647,19 @@ export const buildVideoQuery = async (query) => {
         sortOption
     };
 }
-export const getVideosService=async(req,res)=>{
-    const {page:pageNumber,limit:limitNumber,skip,filter,sort:sortOption}=
-    buildVideoQuery(req.query);
-    const [videos,totalVideos]= await Promise.all([
+export const getVideosService = async (req, res) => {
+    const { page: pageNumber, limit: limitNumber, skip, filter, sort: sortOption } =
+        buildVideoQuery(req.query);
+    const [videos, totalVideos] = await Promise.all([
         Video.find(filter).skip(skip).limit(limit).sort(sort),
         Video.countDocuments(filter)
     ])
-    const totalPages=Math.ceil(totalVideos/limit);
-    
+    return {
+        videos,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalVideos / limitNumber),
+        totalVideos,
+        hasNextPage: pageNumber * limitNumber < totalVideos,
+        hasPrevPage: pageNumber > 1
+    };
 }
