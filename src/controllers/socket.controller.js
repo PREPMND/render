@@ -117,7 +117,13 @@ export const getConversations = asyncHandler(async (req, res) => {
             }
 
         ]);
-
+        await redis.set(
+            cacheKey,
+            JSON.stringify(conversations),
+            {
+                EX: 300 // 5 minutes
+            }
+        );
 
         return res.status(200).json(
             new apiResponse(200, conversations, "Conversations fetched")
