@@ -47,15 +47,15 @@ export const getConversations = asyncHandler(async (req, res) => {
 
         //const cached = await redis.get(cacheKey);
 
-        if (cached) {
-            return res.status(200).json(
-                new apiResponse(
-                    200,
-                    JSON.parse(cached),
-                    "Conversations fetched from cache"
-                )
-            );
-        }
+        // if (cached) {
+        //     return res.status(200).json(
+        //         new apiResponse(
+        //             200,
+        //             JSON.parse(cached),
+        //             "Conversations fetched from cache"
+        //         )
+        //     );
+        // }
         const conversations = await Message.aggregate([
             {
                 $match: {
