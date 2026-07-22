@@ -609,7 +609,7 @@ export const buildVideoQuery =async (req,res) => {
             }
         }
         const sortOption={};
-        switch sort()
+        switch (sort)
 
         
 }
