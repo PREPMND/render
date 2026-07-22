@@ -514,7 +514,11 @@ const Solve = async({page, limit, sort, search}) => {
     }
     let ownerIds=[];
     if(owner.trim()){
-        const users=
+        const users=await User.find({
+            username:{
+                
+            }
+        })
     }
     const filter = {
         isPublished: true,
