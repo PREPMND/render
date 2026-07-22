@@ -648,7 +648,7 @@ export const buildVideoQuery = async (query) => {
             sortOption
         };
     } catch (error) {
-        throw new apiError(401,"The buildVideo")
+        throw new apiError(401,"The buildVideoQuery helper went through an error")
     }
 }
 export const getVideosService = async (req) => {
