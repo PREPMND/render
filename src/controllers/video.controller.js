@@ -664,23 +664,9 @@ export const getVideosService = async (req) => {
     };
 }
 export const videoController = async (req, res) => {
-    const {
-        videos,
-        currentPage,
-        totalPages,
-        totalVideos,
-        hasNextPage,
-        hasPrevPage
-    } = await getVideosService(req);
-
-    return res.status(200).json(
-        new apiResponse(200, {
-            videos,
-            currentPage,
-            totalPages,
-            totalVideos,
-            hasNextPage,
-            hasPrevPage
-        },"The Video fetching process is succesfull")
-    )
+    try {
+        
+    } catch (error) {
+        
+    }
 }
