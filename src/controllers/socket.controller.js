@@ -60,12 +60,12 @@ export const getConversations = asyncHandler(async (req, res) => {
 
         const cached = await redis.get(cacheKey);
         console.log("GET RESULT:", cached ? "HIT" : "MISS");
-        // if (cached) {
-        //     return res.status(200).json(
-        //         new apiResponse(
-        //             200,
+         if (cached) {
+             return res.status(200).json(
+                 new apiResponse(
+                     200,
                      JSON.parse(cached),
-        //             "Conversations fetched from cache"
+                     "Conversations fetched from cache"
                  )
              );
          }
