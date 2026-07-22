@@ -648,20 +648,7 @@ export const buildVideoQuery = async (query) => {
     };
 }
 export const getVideosService = async (req) => {
-    const { page: pageNumber, limit: limitNumber, skip, filter, sort: sortOption } =
-        await buildVideoQuery(req.query);
-    const [videos, totalVideos] = await Promise.all([
-        Video.find(filter).skip(skip).limit(limit).sort(sort),
-        Video.countDocuments(filter)
-    ])
-    return {
-        videos,
-        currentPage: pageNumber,
-        totalPages: Math.ceil(totalVideos / limitNumber),
-        totalVideos,
-        hasNextPage: pageNumber * limitNumber < totalVideos,
-        hasPrevPage: pageNumber > 1
-    };
+    tyr
 }
 export const videoController = async (req, res) => {
     try {
@@ -685,6 +672,6 @@ export const videoController = async (req, res) => {
             },"The Video fetching process is succesfull")
         )
     } catch (error) {
-        throw new apiError(401,"The video controller went through an eorro")
+        throw new apiError(401,"The video controller went through an error");
     }
 }
