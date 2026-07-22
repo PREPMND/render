@@ -589,7 +589,7 @@ export const buildVideoQuery =async (req,res) => {
                 }
             })
             ownerIds=users.map(user=> user._id);
-        }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple 
+        }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple filter.owner and regex+options? right
         if(search.trim()){
             filter.$or=[{
                 title:{
