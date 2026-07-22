@@ -564,12 +564,12 @@ export const BackendScale = async (req, res) => {
         new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const buildVideoQuery =async (req,res) => {
-    const { page=1,
-        limit=6,
-        search="",
-        sort="latest",
-        published="true",
+export const buildVideoQuery = async (req, res) => {
+    const { page = 1,
+        limit = 6,
+        search = "",
+        sort = "latest",
+        published = "true",
         owner,
         category,
         minViews,
@@ -577,46 +577,55 @@ export const buildVideoQuery =async (req,res) => {
         minDuration,
         maxDuration,
         createdAfter,
-        createdBefore }=req.query;
-        const filter={};
-        const skip=(page-1)*limit;
-        let ownerIds=[];
-        if(owner.trim()){
-            const users=await User.find({
-                username:{
-                    $regex:owner,
-                    $options:"i",
-                }
-            })
-            ownerIds=users.map(user=> user._id);
-        }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple filter.owner and regex+options? right
-        if(search.trim()){
-            filter.$or=[{
-                title:{
-                    $regex:search,
-                    $options:"i",
-                }},
-                {
-                description:{
-                    $regex:search,
-                    $options="i",
-                }}
-            ]
-        }
-        if(ownerIds.length>0){
-            filter._id={
-                $in:ownerIds,
+        createdBefore } = req.query;
+    const filter = {};
+    const skip = (page - 1) * limit;
+    let ownerIds = [];
+    if (owner.trim()) {
+        const users = await User.find({
+            username: {
+                $regex: owner,
+                $options: "i",
+            }
+        })
+        ownerIds = users.map(user => user._id);
+    }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple filter.owner and regex+options? right
+    if (search.trim()) {
+        filter.$or = [{
+            title: {
+                $regex: search,
+                $options: "i",
+            }
+        },
+        {
+            description: {
+                $regex: search,
+                $options="i",
             }
         }
-        let sortOption={};
-        switch (sort){
-            case "latest":
-                sortOption={createdAt:-1};
-                break;
-            case "oldest":
-                sortOption={createdAt:1};
-                break;    
+        ]
+    }
+    if (ownerIds.length > 0) {
+        filter._id = {
+            $in: ownerIds,
         }
+    }
+    let sortOption = {};
+    switch (sort) {
+        case "latest":
+            sortOption = { createdAt: -1 };
+            break;
+        case "oldest":
+            sortOption = { createdAt: 1 };
+            break;
+    }
+    if (minViews || maxViews) {
+        filter.views = {};
 
-        
+        if (minViews) filter.views.$gte = Number(minViews);
+
+        if (maxViews) filter.views.$lte = Number(maxViews);
+    }
+
+
 }
