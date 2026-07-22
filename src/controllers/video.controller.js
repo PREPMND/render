@@ -573,8 +573,8 @@ export const Controller = () => {
         category
         minViews
         maxViews
-        minDuration
-        maxDuration
-        createdAfter
-createdBefore }
+        minDuration,
+        maxDuration,
+        createdAfter,
+        createdBefore }
 }
