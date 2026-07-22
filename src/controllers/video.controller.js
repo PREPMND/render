@@ -604,7 +604,7 @@ export const buildVideoQuery =async (req,res) => {
             ]
         }
         if(ownerIds.length>0){
-            filter._Id={
+            filter._id={
                 $in:ownerIds
             }
         }
