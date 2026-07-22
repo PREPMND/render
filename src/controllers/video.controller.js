@@ -578,7 +578,6 @@ export const buildVideoQuery = () => {
         maxDuration,
         createdAfter,
         createdBefore }=req.query;
-        const filter={
-            
-        }
+        const filter={};
+        
 }
