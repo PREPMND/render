@@ -577,7 +577,7 @@ export const buildVideoQuery = async (req) => {
         minDuration,
         maxDuration,
         createdAfter,
-        createdBefore } = req.query;
+        createdBefore } = query;
     const filter = {};
     const skip = (page - 1) * limit;
     let ownerIds = [];
