@@ -579,6 +579,7 @@ export const buildVideoQuery = () => {
         createdAfter,
         createdBefore }=req.query;
         const filter={};
-        const skip=
+        const skip=(page-1)*limit;
+        
         
 }
