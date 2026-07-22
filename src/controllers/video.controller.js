@@ -608,6 +608,7 @@ export const buildVideoQuery =async (req,res) => {
                 $in:ownerIds,
             }
         }
+        switch search
 
         
 }
