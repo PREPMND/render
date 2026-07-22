@@ -26,7 +26,7 @@ const socketSchema=new Schema(
             default:"text"
         },
         status:{
-            type:Boolean,
+            type:string,
             default:false,
         },
         lastSeen:{
