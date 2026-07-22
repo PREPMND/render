@@ -507,7 +507,9 @@ const Solve = async({page, limit, sort, search}) => {
     const words=search.trim().slice(/\s+/);
     const ownerToken= words.find(word=>word.startsWith("o/"));
     if(ownerToken){
-        if
+        if(ownerToken.length>2){
+            
+        }
     }
 
     const filter = {
