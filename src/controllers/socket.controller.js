@@ -143,13 +143,6 @@ export const getConversations = asyncHandler(async (req, res) => {
         throw err;
     }
 
-    return res.status(200).json(
-        new apiResponse(
-            200,
-            conversations,
-            "Conversations fetched successfully"
-        )
-    );
 
 });
 export const getMessages = asyncHandler(async (req, res) => {
