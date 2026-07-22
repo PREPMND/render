@@ -504,7 +504,7 @@ const Solve = async({page, limit, sort, search}) => {
         ownerIds = users.map(user => user._id);
     }
     let owner="";
-    const words=search.trim().slice(/\s+/);
+    const words=search.trim().split(/\s+/);
     const ownerToken= words.find(word=>word.startsWith("o/"));
     if(ownerToken){
         if(ownerToken.length>2){
