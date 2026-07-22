@@ -580,7 +580,6 @@ export const buildVideoQuery = async (query) => {
             createdAfter,
             createdBefore } = query;
         const filter = {};
-        const skip = (page - 1) * limit;
         let ownerIds = [];
         if (owner.trim()) {
             const users = await User.find({
