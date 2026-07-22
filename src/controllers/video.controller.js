@@ -503,25 +503,7 @@ const Solve = async({page, limit, sort, search}) => {
         })
         ownerIds = users.map(user => user._id);
     }
-    const filter={
-        isPublished:true,
-    }
-    if(search.trim()){
-        filter.$or=[
-            {
-                title:{
-                    $regex:search,
-                    $options:"i",
-                }
-            },
-            {
-                description:{
-                    $regex:search,
-                    $options:"i,"
-                }
-            }
-        ]
-    }
+    
     const filter = {
         isPublished: true,
     };
