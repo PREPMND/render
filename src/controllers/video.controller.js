@@ -504,7 +504,7 @@ const Solve = async({page, limit, sort, search}) => {
         ownerIds = users.map(user => user._id);
     }
     let owner="";
-    const word=search.trim().
+    const word=search.trim().slice(/|)
     const filter = {
         isPublished: true,
     };
