@@ -647,4 +647,6 @@ export const buildVideoQuery = async (req, res) => {
         sortOption
     };
 }
-export const getVideosService 
+export const getVideosService=async(req,res)=>{
+    
+}
