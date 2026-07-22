@@ -607,7 +607,7 @@ export const buildVideoQuery = async (query) => {
             ]
         }
         if (ownerIds.length > 0) {
-            filter._id = {
+            filter.owner = {
                 $in: ownerIds,
             }
         }
