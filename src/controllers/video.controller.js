@@ -566,9 +566,9 @@ export const BackendScale = async (req, res) => {
 }
 export const Controller = () => {
     const { page,
-        search
-        sort
-        published
+        search,
+        sort,
+        published,
         owner,
         category,
         minViews,
