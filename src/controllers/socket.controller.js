@@ -27,6 +27,8 @@ export const sendMessage = asyncHandler(async (req, res) => {
     });
     console.log("fwg");
     console.log(message)
+    await redis.del(`conversations:${sender}`);
+    await redis.del(`conversations:${receiver}`);
     return res.status(201).json(
         new apiResponse(201, message, "Message sent successfully")
     );
