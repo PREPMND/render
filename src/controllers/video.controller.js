@@ -564,7 +564,7 @@ export const BackendScale = async (req, res) => {
         new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const Controller = () => {
+export const  = () => {
     const { page,
         search,
         sort,
@@ -576,5 +576,5 @@ export const Controller = () => {
         minDuration,
         maxDuration,
         createdAfter,
-        createdBefore }
+        createdBefore }=req.q
 }
