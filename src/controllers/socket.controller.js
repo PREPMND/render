@@ -189,7 +189,7 @@ export const markMessagesAsSeen = async (req, res) => {
         const { conversationId } = req.params;
 
         const receiver = req.receiver;
-        const sender = req.s
+        const sender = req.user._id
         
         await Message.updateMany(
             {
@@ -203,7 +203,15 @@ export const markMessagesAsSeen = async (req, res) => {
                 },
             }
         );
+        
+    const senderKey = `conversations:${sender.toString()}`;
+    const receiverKey = `conversations:${receiver.toString()}`;
 
+    console.log("DEL SENDER:", senderKey);
+    console.log("DEL RECEIVER:", receiverKey);
+
+    const d1 = await redis.del(senderKey);
+    const d2 = await redis.del(receiverKey);
 
         return res.status(200).json({
             success: true,
