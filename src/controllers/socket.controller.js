@@ -45,7 +45,7 @@ export const getConversations = asyncHandler(async (req, res) => {
     try {
         const cacheKey = `conversations:${req.user._id.toString()}`;
 
-        const cached = await redis.get(cacheKey);
+        //const cached = await redis.get(cacheKey);
 
         if (cached) {
             return res.status(200).json(
@@ -124,7 +124,7 @@ export const getConversations = asyncHandler(async (req, res) => {
             }
 
         ]);
-        console.log("SET KEY:", cacheKey);
+        //console.log("SET KEY:", cacheKey);
         console.log("Cached:", !!cached);
 
         await redis.set(
