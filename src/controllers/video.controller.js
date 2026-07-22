@@ -510,8 +510,8 @@ const Solve = async({page, limit, sort, search}) => {
         filter.$or=[
             {
                 title:{
-                    regex:search,
-                    
+                    $regex:search,
+                    $options:"i",
                 }
             }
         ]
