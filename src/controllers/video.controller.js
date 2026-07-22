@@ -580,7 +580,10 @@ export const buildVideoQuery = () => {
         createdBefore }=req.query;
         const filter={};
         const skip=(page-1)*limit;
-        let ownerIds[];
+        let ownerIds=[];
+        if(owner.trim()){
+            
+        }
 
         
 }
