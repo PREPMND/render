@@ -644,7 +644,7 @@ export const buildVideoQuery = async (req, res) => {
         limit,
         skip,
         filter,
-        
+        sortOption
     }
 
 
