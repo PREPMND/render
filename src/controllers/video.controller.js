@@ -517,7 +517,7 @@ const Solve = async({page, limit, sort, search}) => {
         const users=await User.find({
             username:{
                 $regex:owner,
-                
+                $options:"i",
             }
         })
     }
