@@ -653,7 +653,7 @@ export const buildVideoQuery = async (query) => {
 }
 export const getVideosService = async (req) => {
     try {
-        const { pageNumber:page, limit: limitNumber, skip, filter, sort: sortOption } =
+        const { pageNumber:page, limitNumber:page, skip, filter, sort: sortOption } =
             await buildVideoQuery(req.query);
         const [videos, totalVideos] = await Promise.all([
             Video.find(filter).skip(skip).limit(limit).sort(sort),
