@@ -510,7 +510,7 @@ const Solve = async({page, limit, sort, search}) => {
         if(ownerToken.length>2){
             owner=ownerToken.slice(2);
         }
-        search
+        search=words.filter(word=> word!==)
     }
 
     const filter = {
