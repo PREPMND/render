@@ -520,6 +520,7 @@ const Solve = async({page, limit, sort, search}) => {
                 $options:"i",
             }
         })
+        ownerIds=
     }
     const filter = {
         isPublished: true,
