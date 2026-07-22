@@ -25,14 +25,14 @@ export const sendMessage = asyncHandler(async (req, res) => {
         conversationId,
         text,
         messageType,
-    // });
+     });
     // console.log("fwg");
     // console.log(message)
     // const a=await redis.del(`conversations:${toString(sender)}`);
     // const b=await redis.del(`conversations:${toString(receiver)}`);
     // console.log(a,b)
     // console.log("Deleting cache...");
-    // console.log("Deleted");
+    // console.log("Deleted");//
     return res.status(201).json(
         new apiResponse(201, message, "Message sent successfully")
     );
