@@ -565,87 +565,91 @@ export const BackendScale = async (req, res) => {
     );
 }
 export const buildVideoQuery = async (query) => {
-    const { page = 1,
-        limit = 6,
-        search = "",
-        sort = "latest",
-        published = "true",
-        owner,
-        category,
-        minViews,
-        maxViews,
-        minDuration,
-        maxDuration,
-        createdAfter,
-        createdBefore } = query;
-    const filter = {};
-    const skip = (page - 1) * limit;
-    let ownerIds = [];
-    if (owner.trim()) {
-        const users = await User.find({
-            username: {
-                $regex: owner,
-                $options: "i",
+    try {
+        const { page = 1,
+            limit = 6,
+            search = "",
+            sort = "latest",
+            published = "true",
+            owner,
+            category,
+            minViews,
+            maxViews,
+            minDuration,
+            maxDuration,
+            createdAfter,
+            createdBefore } = query;
+        const filter = {};
+        const skip = (page - 1) * limit;
+        let ownerIds = [];
+        if (owner.trim()) {
+            const users = await User.find({
+                username: {
+                    $regex: owner,
+                    $options: "i",
+                }
+            })
+            ownerIds = users.map(user => user._id);
+        }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple filter.owner and regex+options? right
+        if (search.trim()) {
+            filter.$or = [{
+                title: {
+                    $regex: search,
+                    $options: "i",
+                }
+            },
+            {
+                description: {
+                    $regex: search,
+                    $options="i",
+                }
             }
-        })
-        ownerIds = users.map(user => user._id);
-    }//assuming like the base datao of video documents have only ids of owner and ntg else. hence one did use ids. unless if owner filed or username filed was there it wouldhabe been a simple filter.owner and regex+options? right
-    if (search.trim()) {
-        filter.$or = [{
-            title: {
-                $regex: search,
-                $options: "i",
-            }
-        },
-        {
-            description: {
-                $regex: search,
-                $options="i",
+            ]
+        }
+        if (ownerIds.length > 0) {
+            filter._id = {
+                $in: ownerIds,
             }
         }
-        ]
-    }
-    if (ownerIds.length > 0) {
-        filter._id = {
-            $in: ownerIds,
+        let sortOption = {};
+        switch (sort) {
+            case "latest":
+                sortOption = { createdAt: -1 };
+                break;
+            case "oldest":
+                sortOption = { createdAt: 1 };
+                break;
         }
+        if (minViews || maxViews) {
+            filter.views = {};
+    
+            if (minViews) filter.views.$gte = Number(minViews);
+    
+            if (maxViews) filter.views.$lte = Number(maxViews);
+        }
+        if (maxDuration || minDuration) {
+            filter.duration = {};
+            if (minDuration) filter.duration.$gte = Number(minViews);
+            if (maxDuration) filter.duration.$lte = Number(maxViews);
+        }
+        if (createdAfter || createdBefore) {
+            filter.createdAt = {};
+            if (createdAfter) filter.createdAt.$gte = new Date(createdAfter);
+            if (createdBefore) filter.createdAt.$lte = new Date(createdBefore);
+        }
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+        const skip = (pageNumber - 1) * limitNumber;
+        return {
+            pageNumber,
+            limitNumber,
+            skip,
+            filter,
+            sortOption
+        };
+    } catch (error) {
+        
     }
-    let sortOption = {};
-    switch (sort) {
-        case "latest":
-            sortOption = { createdAt: -1 };
-            break;
-        case "oldest":
-            sortOption = { createdAt: 1 };
-            break;
-    }
-    if (minViews || maxViews) {
-        filter.views = {};
-
-        if (minViews) filter.views.$gte = Number(minViews);
-
-        if (maxViews) filter.views.$lte = Number(maxViews);
-    }
-    if (maxDuration || minDuration) {
-        filter.duration = {};
-        if (minDuration) filter.duration.$gte = Number(minViews);
-        if (maxDuration) filter.duration.$lte = Number(maxViews);
-    }
-    if (createdAfter || createdBefore) {
-        filter.createdAt = {};
-        if (createdAfter) filter.createdAt.$gte = new Date(createdAfter);
-        if (createdBefore) filter.createdAt.$lte = new Date(createdBefore);
-    }
-    const pageNumber = Number(page);
-    const limitNumber = Number(limit);
-    const skip = (pageNumber - 1) * limitNumber;
-    return {
-        pageNumber,
-        limitNumber,
-        skip,
-        filter,
-        sortOption
-    };
 }
 export const getVideosService = async (req) => {
     try {
