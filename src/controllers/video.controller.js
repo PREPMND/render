@@ -654,5 +654,5 @@ export const getVideosService=async(req,res)=>{
         Video.find(filter).skip(skip).limit(limit).sort(sort),
         Video.countDocuments(filter)
     ])
-    const totalVideos=
+    const totalVideos=Math.ceil(totalVideos)
 }
