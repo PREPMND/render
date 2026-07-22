@@ -593,8 +593,10 @@ export const buildVideoQuery =async (req,res) => {
         if(search.trim()){
             filter.$or={
                 title:{
-                    $regex
+                    $regex:search,
+                    $options:"i",
                 },
+                description
             }
         }
 
