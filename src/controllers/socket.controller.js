@@ -29,7 +29,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
     console.log("fwg");
     console.log(message)
     await redis.del(`conversations:${toString(sender)}`);
-    await redis.del(`conversations:${toString(receiver}`);
+    await redis.del(`conversations:${toString(receiver)}`);
     console.log("Deleting cache...");
     console.log("Deleted");
     return res.status(201).json(
