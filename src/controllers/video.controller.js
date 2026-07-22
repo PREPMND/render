@@ -574,7 +574,7 @@ export const Controller = () => {
         minViews
         maxViews
         minDuration
-maxDuration
-createdAfter
+        maxDuration
+        createdAfter
 createdBefore }
 }
