@@ -664,7 +664,7 @@ export const getVideosService = async (req) => {
             hasPrevPage: pageNumber > 1
         };
     } catch (error) {
-        throw new api
+        throw new apiError(401,"getVideoS")
     }
 }
 export const videoController = async (req, res) => {
