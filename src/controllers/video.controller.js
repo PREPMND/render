@@ -512,6 +512,7 @@ const Solve = async({page, limit, sort, search}) => {
         }
         search=words.filter(word=> word!==ownerToken).join(" ");
     }
+    let ownerIds=[];
     
     const filter = {
         isPublished: true,
