@@ -589,7 +589,7 @@ export const buildVideoQuery =async (req,res) => {
                 }
             })
             ownerIds=users.map(user=> user._id);
-        }//assuming like the base datao of video documents have only 
+        }//assuming like the base datao of video documents have only ids of owner and ntg else 
         if(search.trim()){
             filter.$or=[{
                 title:{
