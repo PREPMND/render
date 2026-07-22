@@ -564,7 +564,7 @@ export const BackendScale = async (req, res) => {
         new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const  = () => {
+export const buildVideoQuery = () => {
     const { page,
         search,
         sort,
@@ -576,5 +576,5 @@ export const  = () => {
         minDuration,
         maxDuration,
         createdAfter,
-        createdBefore }=req.q
+        createdBefore }=req.query
 }
