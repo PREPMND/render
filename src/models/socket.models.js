@@ -30,7 +30,7 @@ const socketSchema=new Schema(
             default:false,
         },
         lastSeen:{
-            type:Date
+            type:Date,
         }
     },{timestamps:true}
 );
