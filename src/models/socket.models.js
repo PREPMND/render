@@ -27,7 +27,7 @@ const socketSchema=new Schema(
         },
         status:{
             type:String,
-            default:"notseen",
+            default:"sent",
         },
         lastSeen:{
             type:Date,
