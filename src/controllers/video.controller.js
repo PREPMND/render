@@ -601,7 +601,7 @@ export const buildVideoQuery = async (query) => {
             {
                 description: {
                     $regex: search,
-                    $options="i",
+                    $options:"i",
                 }
             }
             ]
@@ -630,7 +630,7 @@ export const buildVideoQuery = async (query) => {
         if (maxDuration || minDuration) {
             filter.duration = {};
             if (minDuration) filter.duration.$gte = Number(minDuration);
-            if (maxDuration) filter.duration.$lte = Number(maxViews);
+            if (maxDuration) filter.duration.$lte = Number(maxDuration);
         }
         if (createdAfter || createdBefore) {
             filter.createdAt = {};
