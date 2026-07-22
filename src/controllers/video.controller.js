@@ -608,7 +608,7 @@ export const buildVideoQuery =async (req,res) => {
                 $in:ownerIds,
             }
         }
-        const sortOption=""
+        const sortOption={};
         switch sort()
 
         
