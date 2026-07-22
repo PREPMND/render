@@ -584,7 +584,8 @@ export const buildVideoQuery =async (req,res) => {
         if(owner.trim()){
             const users=await User.find({
                 username:{
-                    $regex:owner
+                    $regex:owner,
+                    $options:"i"
                 }
             })
         }
