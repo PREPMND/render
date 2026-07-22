@@ -564,7 +564,7 @@ export const BackendScale = async (req, res) => {
         new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const buildVideoQuery = async (req) => {
+export const buildVideoQuery = async (query) => {
     const { page = 1,
         limit = 6,
         search = "",
