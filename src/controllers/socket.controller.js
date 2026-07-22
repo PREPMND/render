@@ -203,11 +203,6 @@ export const markMessagesAsSeen = async (req, res) => {
             }
         );
 
-        const io = req.app.get("io");
-
-        io.to(conversationId).emit("messages-seen", {
-            conversationId,
-        });
 
         return res.status(200).json({
             success: true,
