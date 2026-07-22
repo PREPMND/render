@@ -596,7 +596,10 @@ export const buildVideoQuery =async (req,res) => {
                     $regex:search,
                     $options:"i",
                 },
-                description
+                description:{
+                    $regex:search,
+                    
+                }
             }
         }
 
