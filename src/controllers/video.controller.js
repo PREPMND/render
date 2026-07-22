@@ -590,7 +590,9 @@ export const buildVideoQuery =async (req,res) => {
             })
             ownerIds=users.map(user=> user._id);
         }
-        if
+        if(search.trim()){
+            const 
+        }
 
         
 }
