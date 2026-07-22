@@ -564,7 +564,7 @@ export const BackendScale = async (req, res) => {
         new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const buildVideoQuery =async () => {
+export const buildVideoQuery =async (req,res) => {
     const { page=1,
         limit=6,
         search="",
@@ -582,7 +582,9 @@ export const buildVideoQuery =async () => {
         const skip=(page-1)*limit;
         let ownerIds=[];
         if(owner.trim()){
-            const users=await 
+            const users=await User.find({
+                
+            })
         }
 
         
