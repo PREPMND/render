@@ -645,7 +645,5 @@ export const buildVideoQuery = async (req, res) => {
         skip,
         filter,
         sortOption
-    }
-
-
+    };
 }
