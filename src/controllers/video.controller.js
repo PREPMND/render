@@ -648,7 +648,7 @@ export const buildVideoQuery = async (query) => {
             sortOption
         };
     } catch (error) {
-        throw new
+        throw new apiError(401,"The buildVideo")
     }
 }
 export const getVideosService = async (req) => {
