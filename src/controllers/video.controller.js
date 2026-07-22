@@ -638,7 +638,7 @@ export const buildVideoQuery = async (req, res) => {
     }
     return({
         Number(page),
-        
+        Number(limit)
     })
 
 
