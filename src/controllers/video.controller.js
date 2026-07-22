@@ -591,7 +591,11 @@ export const buildVideoQuery =async (req,res) => {
             ownerIds=users.map(user=> user._id);
         }
         if(search.trim()){
-            const 
+            filter.$or={
+                {
+                    title
+                }
+            }
         }
 
         
