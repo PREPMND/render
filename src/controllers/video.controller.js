@@ -673,5 +673,5 @@ export const videoController=async(req,res)=>{
         hasPrevPage
     }=await getVideosService(req);
 
-    return 
+    return res.status(200)
 }
