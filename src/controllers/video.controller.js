@@ -569,8 +569,8 @@ export const Controller = () => {
         search
         sort
         published
-owner
-category
+        owner
+        category
 minViews
 maxViews
 minDuration
