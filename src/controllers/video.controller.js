@@ -569,10 +569,10 @@ export const Controller = () => {
         search
         sort
         published
-        owner
-        category
-        minViews
-        maxViews
+        owner,
+        category,
+        minViews,
+        maxViews,
         minDuration,
         maxDuration,
         createdAfter,
