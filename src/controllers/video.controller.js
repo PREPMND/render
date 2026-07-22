@@ -667,6 +667,9 @@ export const videoController=async(req,res)=>{
     const {
         videos,
         currentPage,
-        
-    }
+        totalPages,
+        totalVideos,
+        hasNextPage,
+        hasPrevPage
+    }=
 }
