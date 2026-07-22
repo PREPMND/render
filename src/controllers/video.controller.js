@@ -513,6 +513,11 @@ const Solve = async({page, limit, sort, search}) => {
                     $regex:search,
                     $options:"i",
                 }
+            },
+            {
+                description:{
+                    $regex
+                }
             }
         ]
     }
