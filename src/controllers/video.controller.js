@@ -565,5 +565,19 @@ export const BackendScale =async (req, res) => {
     );
 }
 export const Controller=()=>{
-    const 
+    const {page, 
+search
+sort
+published
+
+Now Product asks for:
+
+owner
+category
+minViews
+maxViews
+minDuration
+maxDuration
+createdAfter
+createdBefore}
 }
