@@ -637,7 +637,7 @@ export const buildVideoQuery = async (req, res) => {
         if(createdBefore) filter.createdAt.$lte=new Date(createdBefore);
     }
     return {
-        Number({page}),
+        Number(page),
         Number(limit),
         Number(skip),
         filter,
