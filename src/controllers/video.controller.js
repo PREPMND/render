@@ -640,7 +640,7 @@ export const buildVideoQuery = async (req, res) => {
         Number(page),
         Number(limit),
         Number(skip),
-        
+        filter,
     })
 
 
