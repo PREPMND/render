@@ -650,5 +650,5 @@ export const buildVideoQuery = async (query) => {
 export const getVideosService=async(req,res)=>{
     const {page:pageNumber,limit:limitNumber,skip,filter,sort:sortOption}=
     buildVideoQuery(req.query);
-    
+    const 
 }
