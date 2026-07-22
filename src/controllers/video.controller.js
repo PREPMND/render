@@ -640,13 +640,13 @@ export const buildVideoQuery = async (req, res) => {
     const limitNumber=Number(limit);
     const skip=(pageNumber-1)*limitNumber;
     return {
-        page,
-        limit,
+        pageNumber,
+        limitNumber,
         skip,
         filter,
         sortOption
     };
 }
 export const getVideosService=async(req,res)=>{
-    const {page}
+    const {pageNumber}
 }
