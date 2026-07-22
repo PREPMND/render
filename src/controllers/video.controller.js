@@ -685,6 +685,6 @@ export const videoController = async (req, res) => {
             },"The Video fetching process is succesfull")
         )
     } catch (error) {
-        
+        throw new apiError
     }
 }
