@@ -628,7 +628,8 @@ export const buildVideoQuery = async (req, res) => {
     }
     if(maxDuration || minDuration){
         filter.duration={};
-        if(minDuration) filter.duration.$gte
+        if(minDuration) filter.duration.$gte=Number(minViews);
+        if(max)
     }
 
 }
