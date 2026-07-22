@@ -571,9 +571,9 @@ export const Controller = () => {
         published
         owner
         category
-minViews
-maxViews
-minDuration
+        minViews
+        maxViews
+        minDuration
 maxDuration
 createdAfter
 createdBefore }
