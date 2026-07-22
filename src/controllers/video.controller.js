@@ -565,7 +565,7 @@ export const BackendScale = async (req, res) => {
     );
 }
 export const buildVideoQuery = () => {
-    const { page,
+    const { page=1,
         search,
         sort,
         published,
