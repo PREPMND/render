@@ -636,7 +636,8 @@ export const buildVideoQuery = async (req, res) => {
         if(createdAfter) filter.createdAt.$gte=new Date(createdAfter);
         if(createdBefore) filter.createdAt.$lte=new Date(createdBefore);
     }
-    const pageNumber=Number(page)
+    const pageNumber=Number(page);
+    const limitNumber=Number(limit);
     const skip=()
     return {
         parseInt(page),
