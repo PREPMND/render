@@ -506,6 +506,9 @@ const Solve = async({page, limit, sort, search}) => {
     const filter={
         isPublished:true,
     }
+    if(search.trim()){
+        filter.$or
+    }
     const filter = {
         isPublished: true,
     };
