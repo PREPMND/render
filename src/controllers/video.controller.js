@@ -663,4 +663,6 @@ export const getVideosService = async (req, res) => {
         hasPrevPage: pageNumber > 1
     };
 }
-export const videoController
+export const videoController=async(req,res)=>{
+    
+}
