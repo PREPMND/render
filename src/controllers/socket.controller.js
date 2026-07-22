@@ -204,8 +204,8 @@ export const markMessagesAsSeen = async (req, res) => {
             }
         );
         
-    const senderKey = `conversations:${sender.toString()}`;
-    const receiverKey = `conversations:${receiver.toString()}`;
+    const senderKey = `conversations:${sender}`;
+    const receiverKey = `conversations:${receiver}`;
 
     console.log("DEL SENDER:", senderKey);
     console.log("DEL RECEIVER:", receiverKey);
