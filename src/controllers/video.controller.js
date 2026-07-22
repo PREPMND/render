@@ -673,5 +673,10 @@ export const videoController=async(req,res)=>{
         hasPrevPage
     }=await getVideosService(req);
 
-    return res.status(200)
+    return res.status(200).json(
+        new apiResponse(200,{
+            videos,
+            curr
+        })
+    )
 }
