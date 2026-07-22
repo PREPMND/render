@@ -598,7 +598,7 @@ export const buildVideoQuery =async (req,res) => {
                 },
                 description:{
                     $regex:search,
-                    
+                    $options="i",
                 }
             }
         }
