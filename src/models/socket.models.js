@@ -28,6 +28,9 @@ const socketSchema=new Schema(
         status:{
             type:Boolean,
             default:false,
+        },
+        lastSeen:{
+            type:Time
         }
     },{timestamps:true}
 );
