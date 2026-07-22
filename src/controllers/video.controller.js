@@ -610,7 +610,9 @@ export const buildVideoQuery =async (req,res) => {
         }
         const sortOption={};
         switch (sort){
-            case "latest"
+            case "latest":
+                sortOption={createdAt:-1};
+                
         }
 
         
