@@ -26,13 +26,13 @@ export const sendMessage = asyncHandler(async (req, res) => {
         text,
         messageType,
     });
-    // console.log("fwg");
-    // console.log(message)
-    // const a=await redis.del(`conversations:${toString(sender)}`);
-    // const b=await redis.del(`conversations:${toString(receiver)}`);
-    // console.log(a,b)
-    // console.log("Deleting cache...");
-    // console.log("Deleted");//
+     console.log("fwg");
+     console.log(message)
+     const a=await redis.del(`conversations:${toString(sender)}`);
+     const b=await redis.del(`conversations:${toString(receiver)}`);
+     console.log(a,b)
+     console.log("Deleting cache...");
+     console.log("Deleted");
     const senderKey = `conversations:${sender.toString()}`;
     const receiverKey = `conversations:${receiver.toString()}`;
 
@@ -53,22 +53,22 @@ export const getConversations = asyncHandler(async (req, res) => {
     const userId = new mongoose.Types.ObjectId(req.user._id);
 
     try {
-        //const cacheKey = `conversations:${req.user._id.toString()}`;
-        //const cached = await redis.get(cacheKey);
+        const cacheKey = `conversations:${req.user._id.toString()}`;
+        const cached = await redis.get(cacheKey);
         const cacheKey = `conversations:${req.user._id.toString()}`;
         console.log("GET KEY:", cacheKey);
 
         const cached = await redis.get(cacheKey);
         console.log("GET RESULT:", cached ? "HIT" : "MISS");
-        // if (cached) {
-        //     return res.status(200).json(
-        //         new apiResponse(
-        //             200,
-        //             JSON.parse(cached),
-        //             "Conversations fetched from cache"
-        //         )
-        //     );
-        // }
+         if (cached) {
+             return res.status(200).json(
+                 new apiResponse(
+                     200,
+                     JSON.parse(cached),
+                     "Conversations fetched from cache"
+                 )
+             );
+         }
         const conversations = await Message.aggregate([
             {
                 $match: {
@@ -137,20 +137,20 @@ export const getConversations = asyncHandler(async (req, res) => {
             }
 
         ]);
-        //console.log("SET KEY:", cacheKey);
-        //console.log("Cached:", !!cached);
+        console.log("SET KEY:", cacheKey);
+        console.log("Cached:", !!cached);
         console.log("SET KEY:", cacheKey);
 
         await redis.set(cacheKey, JSON.stringify(conversations), {
             EX: 300,
         });
-        // await redis.set(
-        //     cacheKey,
-        //     JSON.stringify(conversations),
-        //     {
-        //         EX: 300 // 5 minutes
-        //     }
-        // );
+         await redis.set(
+             cacheKey,
+             JSON.stringify(conversations),
+             {
+                 EX: 300  5 minutes
+             }
+         );
 
         return res.status(200).json(
             new apiResponse(200, conversations, "Conversations fetched")
