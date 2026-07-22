@@ -482,7 +482,7 @@ export const searchElastic = async (req, res) => {
         });
     }
 };
-const Solve = async({page, limit, sort, search}) => {
+const Solve = async ({ page, limit, sort, search }) => {
     const skip = (page - 1) * limit;
     const words = search.trim().split(/\s+/);
     let owner = "";
@@ -503,7 +503,7 @@ const Solve = async({page, limit, sort, search}) => {
         })
         ownerIds = users.map(user => user._id);
     }
-    
+
     const filter = {
         isPublished: true,
     };
@@ -538,13 +538,13 @@ const Solve = async({page, limit, sort, search}) => {
             break;
 
     }
-    const [videos,totalVideos]=await Promise.all([
+    const [videos, totalVideos] = await Promise.all([
         Video.find(filter).skip(skip).limit(limit).sort(sortOption),
         Video.countDocuments(filter)
     ])
-    return [videos,totalVideos];
+    return [videos, totalVideos];
 }
-export const BackendScale =async (req, res) => {
+export const BackendScale = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     if (page < 1) {
         throw new apiError(401, "Page paramters are wrong.");
@@ -559,19 +559,16 @@ export const BackendScale =async (req, res) => {
     }
     const search = (req.query.search) || "";
 
-    const [videos,totalVideos] =await Solve({page, limit, sort, search});
+    const [videos, totalVideos] = await Solve({ page, limit, sort, search });
     return res.status(200).json(
-        new apiResponse(200, { videos, totalVideos}, "the operation is successfull")
+        new apiResponse(200, { videos, totalVideos }, "the operation is successfull")
     );
 }
-export const Controller=()=>{
-    const {page, 
-search
+export const Controller = () => {
+    const { page,
+        search
 sort
 published
-
-Now Product asks for:
-
 owner
 category
 minViews
@@ -579,5 +576,5 @@ maxViews
 minDuration
 maxDuration
 createdAfter
-createdBefore}
+createdBefore }
 }
