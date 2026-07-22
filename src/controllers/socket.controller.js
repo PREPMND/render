@@ -41,7 +41,7 @@ export const getConversations = asyncHandler(async (req, res) => {
     const userId = new mongoose.Types.ObjectId(req.user._id);
 
     try {
-        const cacheKey = `conversations:${req.user._id}`;
+        const cacheKey = `conversations:${req.user._id.toString()}`;
 
         const cached = await redis.get(cacheKey);
 
