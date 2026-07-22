@@ -649,7 +649,7 @@ export const buildVideoQuery = async (query) => {
 }
 export const getVideosService = async (req) => {
     const { page: pageNumber, limit: limitNumber, skip, filter, sort: sortOption } =
-       await buildVideoQuery(req.query);
+        await buildVideoQuery(req.query);
     const [videos, totalVideos] = await Promise.all([
         Video.find(filter).skip(skip).limit(limit).sort(sort),
         Video.countDocuments(filter)
@@ -663,7 +663,7 @@ export const getVideosService = async (req) => {
         hasPrevPage: pageNumber > 1
     };
 }
-export const videoController=async(req,res)=>{
+export const videoController = async (req, res) => {
     const {
         videos,
         currentPage,
@@ -671,12 +671,16 @@ export const videoController=async(req,res)=>{
         totalVideos,
         hasNextPage,
         hasPrevPage
-    }=await getVideosService(req);
+    } = await getVideosService(req);
 
     return res.status(200).json(
-        new apiResponse(200,{
+        new apiResponse(200, {
             videos,
-            curr
+            currentPage,
+            totalPages,
+            totalVideos,
+            hasNextPage,
+            hasPrevPage
         })
     )
 }
