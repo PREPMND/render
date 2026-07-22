@@ -603,7 +603,9 @@ export const buildVideoQuery =async (req,res) => {
                 }}
             ]
         }
-        if
+        if(owner.trim()){
+            
+        }
 
         
 }
