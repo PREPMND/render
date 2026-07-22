@@ -589,7 +589,7 @@ export const buildVideoQuery =async (req,res) => {
                 }
             })
             ownerIds=users.map(user=> user._id);
-        }
+        }//assuming like the base datao f
         if(search.trim()){
             filter.$or=[{
                 title:{
