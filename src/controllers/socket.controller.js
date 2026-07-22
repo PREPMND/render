@@ -33,6 +33,16 @@ export const sendMessage = asyncHandler(async (req, res) => {
     // console.log(a,b)
     // console.log("Deleting cache...");
     // console.log("Deleted");//
+    const senderKey = `conversations:${sender.toString()}`;
+    const receiverKey = `conversations:${receiver.toString()}`;
+
+    console.log("DEL SENDER:", senderKey);
+    console.log("DEL RECEIVER:", receiverKey);
+
+    const d1 = await redis.del(senderKey);
+    const d2 = await redis.del(receiverKey);
+
+    console.log("DEL RESULT:", d1, d2);
     return res.status(201).json(
         new apiResponse(201, message, "Message sent successfully")
     );
