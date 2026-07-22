@@ -505,7 +505,8 @@ const Solve = async({page, limit, sort, search}) => {
     }
     let owner="";
     const words=search.trim().slice(/\s+/);
-    const ownerToken= words.find(word=>word)
+    const ownerToken= words.find(word=>word.startsWith("o/"));
+    
 
     const filter = {
         isPublished: true,
