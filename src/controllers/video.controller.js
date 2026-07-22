@@ -626,6 +626,6 @@ export const buildVideoQuery = async (req, res) => {
 
         if (maxViews) filter.views.$lte = Number(maxViews);
     }
-
+    if(max)
 
 }
