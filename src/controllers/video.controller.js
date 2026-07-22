@@ -520,7 +520,7 @@ const Solve = async({page, limit, sort, search}) => {
                 $options:"i",
             }
         })
-        ownerIds=
+        ownerIds=users.map(user=>user._id);
     }
     const filter = {
         isPublished: true,
