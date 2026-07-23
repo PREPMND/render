@@ -8,7 +8,6 @@ import { markMessagesAsSeen } from "../controllers/socket.controller.js";
 const routerVideo = express.Router();
 console.log("wefwr")
 routerVideo.get("/practicevideo",PracticeVideo);
-routerVideo.get("/practicetrending",Trending)
 routerVideo.post("/createvideo", verifyJWT,rateLimiter,
     upload.fields([
         {
