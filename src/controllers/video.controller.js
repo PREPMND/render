@@ -696,4 +696,6 @@ export const videoController = async (req, res) => {
     }
 }
 
-export const resuableQueryPagination
+export const resuableQueryPagination=()=>{
+    
+}
