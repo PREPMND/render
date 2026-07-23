@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, any, PracticeVideo, Trending} from "../controllers/video.controller.js";
+import { createVideo, getVideos, getVideoById, updateVideo, deleteVideo, any, PracticeVideo} from "../controllers/video.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { rateLimiter } from "../middlewares/ratelimiter.middleware.js";
 import { cache } from "../middlewares/cache.middleware.js";
