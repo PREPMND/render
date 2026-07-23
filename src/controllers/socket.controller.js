@@ -203,6 +203,7 @@ export const markMessagesAsSeen = async (req, res) => {
                 },
             }
         );
+        console.log(result);
         
         
     const senderKey = `conversations:${sender}`;
