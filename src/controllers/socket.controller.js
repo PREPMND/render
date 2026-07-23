@@ -194,7 +194,7 @@ export const markMessagesAsSeen = async (req, res) => {
         const result=await Message.updateMany(
             {
                 conversationId,
-                receiver: sender,
+                receiver: receiver,
                 status: "sent",
             },
             {
