@@ -201,4 +201,4 @@ export const markMessagesAsSeen = asyncHandler(async (req, res) => {
             message: error.message,
         });
     }
-};
+});
