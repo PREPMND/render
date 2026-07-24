@@ -206,14 +206,14 @@ export const markMessagesAsSeen = async (req, res) => {
         console.log(result);
         
         
-    const senderKey = `conversations:${sender}`;
-    const receiverKey = `conversations:${receiver}`;
+    // const senderKey = `conversations:${sender}`;
+    // const receiverKey = `conversations:${receiver}`;
 
-    console.log("DEL SENDER:", senderKey);
-    console.log("DEL RECEIVER:", receiverKey);
+    // console.log("DEL SENDER:", senderKey);
+    // console.log("DEL RECEIVER:", receiverKey);
 
-    const d1 = await redis.del(senderKey);
-    const d2 = await redis.del(receiverKey);
+    // const d1 = await redis.del(senderKey);
+    // const d2 = await redis.del(receiverKey);
 
         return res.status(200).json({
             success: true,
