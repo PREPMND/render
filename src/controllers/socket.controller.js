@@ -7,7 +7,7 @@ import redis from "../redis/redis.js"
 export const getConversationId = (user1, user2) => {
     return [user1.toString(), user2.toString()].sort().join("_");
 };
-export const emitToConversation = (req, conversationId, event, payload) => {
+const emitToConversation = (req, conversationId, event, payload) => {
     const io = req.app.get("io");
     io.to(conversationId).emit(event, payload);
 };
