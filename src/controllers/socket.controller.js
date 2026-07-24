@@ -124,7 +124,7 @@ export const getConversations = asyncHandler(async (req, res) => {
                     lastMessage: "$lastMessage.text",
                     createdAt: "$lastMessage.createdAt",
                     lastSeen: "$lastMessage.lastSeen",
-                    status:"$lastMessage.status",
+                    status: "$lastMessage.status",
                     otherUser: {
                         _id: "$otherUser._id",
                         username: "$otherUser.username",
@@ -190,8 +190,8 @@ export const markMessagesAsSeen = async (req, res) => {
 
         const receiver = req.query.receiver;
         const sender = req.user._id
-        console.log(receiver+"_"+ sender)
-        const result=await Message.updateMany(
+        console.log(receiver + "_" + sender)
+        const result = await Message.updateMany(
             {
                 conversationId,
                 receiver: sender,
@@ -203,17 +203,23 @@ export const markMessagesAsSeen = async (req, res) => {
                 },
             }
         );
-        console.log(result);
-        
-        
-    // const senderKey = `conversations:${sender}`;
-    // const receiverKey = `conversations:${receiver}`;
 
-    // console.log("DEL SENDER:", senderKey);
-    // console.log("DEL RECEIVER:", receiverKey);
+        const docs = await Message.find({ conversationId });
 
-    // const d1 = await redis.del(senderKey);
-    // const d2 = await redis.del(receiverKey);
+        console.log(docs.map(m => ({
+            text: m.text,
+            status: m.status,
+            sender: m.sender,
+            receiver: m.receiver,
+        })));
+        // const senderKey = `conversations:${sender}`;
+        // const receiverKey = `conversations:${receiver}`;
+
+        // console.log("DEL SENDER:", senderKey);
+        // console.log("DEL RECEIVER:", receiverKey);
+
+        // const d1 = await redis.del(senderKey);
+        // const d2 = await redis.del(receiverKey);
 
         return res.status(200).json({
             success: true,
