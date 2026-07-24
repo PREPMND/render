@@ -12,17 +12,19 @@ const emitToConversation = (req, conversationId, event, payload) => {
     io.to(conversationId).emit(event, payload);
 };
 export const sendMessage = asyncHandler(async (req, res) => {
-    const sender = req.user?._id;
+    const sender = req.user._id;
     const { receiver, text, messageType = "text" } = req.body;
-    console.log(receiver);
-    const conversationId = getConversationId(sender, receiver);
-    if (!receiver || !conversationId) {
-        throw new apiError(400, "Receiver and conversationId are required");
+
+    if (!receiver) {
+        throw new apiError(400, "Receiver required");
     }
 
     if (!text?.trim() && messageType === "text") {
         throw new apiError(400, "Message cannot be empty");
     }
+
+    const conversationId = getConversationId(sender, receiver);
+
     const message = await Message.create({
         sender,
         receiver,
@@ -30,23 +32,12 @@ export const sendMessage = asyncHandler(async (req, res) => {
         text,
         messageType,
     });
-    // console.log("fwg");
-    // console.log(message)
-    // const a=await redis.del(`conversations:${toString(sender)}`);
-    // const b=await redis.del(`conversations:${toString(receiver)}`);
-    // console.log(a,b)
-    // console.log("Deleting cache...");
-    // // console.log("Deleted");//
-    // const senderKey = `conversations:${sender.toString()}`;
-    // const receiverKey = `conversations:${receiver.toString()}`;
 
-    // console.log("DEL SENDER:", senderKey);
-    // console.log("DEL RECEIVER:", receiverKey);
+    emitToConversation(req, conversationId, "receive-message", {
+        ...message.toObject(),
+        conversationId,
+    });
 
-    // const d1 = await redis.del(senderKey);
-    // const d2 = await redis.del(receiverKey);
-
-    // console.log("DEL RESULT:", d1, d2);
     return res.status(201).json(
         new apiResponse(201, message, "Message sent successfully")
     );
