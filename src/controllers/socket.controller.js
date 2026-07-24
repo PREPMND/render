@@ -12,18 +12,18 @@ const emitToConversation = (req, conversationId, event, payload) => {
     io.to(conversationId).emit(event, payload);
 };
 export const sendMessage = asyncHandler(async (req, res) => {
-    const sender = req.user._id;
+    const sender = req.user?._id;
     const { receiver, text, messageType = "text" } = req.body;
 
+    const conversationId = getConversationId(sender, receiver);
+
     if (!receiver) {
-        throw new apiError(400, "Receiver required");
+        throw new apiError(400, "Receiver is required");
     }
 
     if (!text?.trim() && messageType === "text") {
         throw new apiError(400, "Message cannot be empty");
     }
-
-    const conversationId = getConversationId(sender, receiver);
 
     const message = await Message.create({
         sender,
@@ -31,11 +31,6 @@ export const sendMessage = asyncHandler(async (req, res) => {
         conversationId,
         text,
         messageType,
-    });
-
-    emitToConversation(req, conversationId, "receive-message", {
-        ...message.toObject(),
-        conversationId,
     });
 
     return res.status(201).json(
