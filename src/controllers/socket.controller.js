@@ -178,49 +178,28 @@ export const getMessages = asyncHandler(async (req, res) => {
     );
 
 });
-export const markMessagesAsSeen = async (req, res) => {
-    try {
+export const markMessagesAsSeen = asyncHandler(async (req, res) => {
+    const { conversationId } = req.params;
+    const receiver = req.user._id;
 
-        const { conversationId } = req.params;
-
-        const receiver = req.query.receiver;
-        const sender = req.user._id
-        console.log(receiver + "_" + sender)
-        const result = await Message.updateMany(
-            {
-                conversationId,
-                receiver: sender,
-                status: "sent",
+    await Message.updateMany(
+        {
+            conversationId,
+            receiver,
+            status: "sent",
+        },
+        {
+            $set: {
+                status: "seen",
             },
-            {
-                $set: {
-                    status: "seen",
-                },
-            }
-        );
+        }
+    );
 
-        const docs = await Message.find({ conversationId });
+    emitToConversation(req, conversationId, "messages-seen", {
+        conversationId,
+    });
 
-        // const senderKey = `conversations:${sender}`;
-        // const receiverKey = `conversations:${receiver}`;
-
-        // console.log("DEL SENDER:", senderKey);
-        // console.log("DEL RECEIVER:", receiverKey);
-
-        // const d1 = await redis.del(senderKey);
-        // const d2 = await redis.del(receiverKey);
-
-        return res.status(200).json({
-            success: true,
-            message: "Messages marked as seen"
-        });
-
-    } catch (error) {
-
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-
-    }
-};
+    return res.status(200).json(
+        new apiResponse(200, null, "Messages marked as seen")
+    );
+});
