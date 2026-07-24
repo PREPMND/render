@@ -55,20 +55,20 @@ export const getConversations = asyncHandler(async (req, res) => {
     try {
         //const cacheKey = `conversations:${req.user._id.toString()}`;
         //const cached = await redis.get(cacheKey);
-        const cacheKey = `conversations:${req.user._id.toString()}`;
-        console.log("GET KEY:", cacheKey);
+        // const cacheKey = `conversations:${req.user._id.toString()}`;
+        // console.log("GET KEY:", cacheKey);
 
-        const cached = await redis.get(cacheKey);
-        console.log("GET RESULT:", cached ? "HIT" : "MISS");
-         if (cached) {
-             return res.status(200).json(
-                 new apiResponse(
-                     200,
-                     JSON.parse(cached),
-                     "Conversations fetched from cache"
-                 )
-             );
-         }
+        // const cached = await redis.get(cacheKey);
+        // console.log("GET RESULT:", cached ? "HIT" : "MISS");
+        //  if (cached) {
+        //      return res.status(200).json(
+        //          new apiResponse(
+        //              200,
+        //              JSON.parse(cached),
+        //              "Conversations fetched from cache"
+        //          )
+        //      );
+        //  }
         const conversations = await Message.aggregate([
             {
                 $match: {
