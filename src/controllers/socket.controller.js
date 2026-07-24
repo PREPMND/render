@@ -206,12 +206,6 @@ export const markMessagesAsSeen = async (req, res) => {
 
         const docs = await Message.find({ conversationId });
 
-        console.log(docs.map(m => ({
-            text: m.text,
-            status: m.status,
-            sender: m.sender,
-            receiver: m.receiver,
-        })));
         // const senderKey = `conversations:${sender}`;
         // const receiverKey = `conversations:${receiver}`;
 
