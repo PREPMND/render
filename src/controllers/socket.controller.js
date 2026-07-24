@@ -140,11 +140,11 @@ export const getConversations = asyncHandler(async (req, res) => {
         ]);
         //console.log("SET KEY:", cacheKey);
         //console.log("Cached:", !!cached);
-        console.log("SET KEY:", cacheKey);
+        // console.log("SET KEY:", cacheKey);
 
-        await redis.set(cacheKey, JSON.stringify(conversations), {
-            EX: 300,
-        });
+        // await redis.set(cacheKey, JSON.stringify(conversations), {
+        //     EX: 300,
+        // });
         // await redis.set(
         //     cacheKey,
         //     JSON.stringify(conversations),
