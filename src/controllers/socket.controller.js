@@ -174,27 +174,31 @@ export const getMessages = asyncHandler(async (req, res) => {
 
 });
 export const markMessagesAsSeen = asyncHandler(async (req, res) => {
-    const { conversationId } = req.params;
-    const receiver = req.user._id;
+    try {
+        const { conversationId } = req.params;
+        const sender = req.user._id;
 
-    await Message.updateMany(
-        {
-            conversationId,
-            receiver,
-            status: "sent",
-        },
-        {
-            $set: {
-                status: "seen",
+        await Message.updateMany(
+            {
+                conversationId,
+                receiver: sender,
+                status: "sent",
             },
-        }
-    );
+            {
+                $set: {
+                    status: "seen",
+                },
+            }
+        );
 
-    emitToConversation(req, conversationId, "messages-seen", {
-        conversationId,
-    });
-
-    return res.status(200).json(
-        new apiResponse(200, null, "Messages marked as seen")
-    );
-});
+        return res.status(200).json({
+            success: true,
+            message: "Messages marked as seen",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
