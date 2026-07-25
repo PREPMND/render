@@ -10,6 +10,8 @@ export const validatePagination=async(req,res)=>{
     }
     page=Number(page);
     limit=Number(limit);
-    req.validate
+    req.validatedQuery={
+        ..
+    }
 
 }
