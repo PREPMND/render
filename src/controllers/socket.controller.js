@@ -182,7 +182,9 @@ export const markMessagesAsSeen = asyncHandler(async (req, res) => {
             {
                 conversationId,
                 receiver: sender,
-                status: "sent",
+                status: {
+                    $ne: "seen",
+                }
             },
             {
                 $set: {
