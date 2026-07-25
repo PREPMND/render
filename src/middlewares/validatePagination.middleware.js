@@ -1,3 +1,3 @@
-export const validatePagination=async()=>{
-
+export const validatePagination=async(req,res)=>{
+    
 }
