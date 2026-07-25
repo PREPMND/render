@@ -15,5 +15,5 @@ export const validatePagination=async(req,res)=>{
         page,
         limit
     }
-
+    next();
 }
