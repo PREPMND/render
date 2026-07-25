@@ -5,8 +5,8 @@ export const validatePagination=async(req,res)=>{
         throw new apiError(401,"Page parameters are wrong.");
     }
     const limit=(req.query.limit) ||6;
-    if(limit>10 ||  !isNaN(Number(limit))){
-        throw new apiError(401,"Limit should'nt exceed 10 and should be a number")
+    if(limit>10 || limit<1 || !isNaN(Number(limit))){
+        throw new apiError(401,"Limit should'nt exceed 10 and should be a number");
     }
 
 }
