@@ -117,6 +117,7 @@ export const getConversations = asyncHandler(async (req, res) => {
                         username: "$otherUser.username",
                         avatar: "$otherUser.avatar",
                         fullName: "$otherUser.fullName"
+                        isO
                     }
                 }
             },
