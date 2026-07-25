@@ -34,7 +34,7 @@ const socketSchema=new Schema(
         },
         issOnline:{
             type:bool,
-            
+            default:false
         }
     },{timestamps:true}
 );
