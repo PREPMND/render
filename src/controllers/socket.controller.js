@@ -116,8 +116,8 @@ export const getConversations = asyncHandler(async (req, res) => {
                         _id: "$otherUser._id",
                         username: "$otherUser.username",
                         avatar: "$otherUser.avatar",
-                        fullName: "$otherUser.fullName"
-                        isOnline:"$isOnline"
+                        fullName: "$otherUser.fullName",
+                        isOnline:"$otherUser.isOnline"
                     }
                 }
             },
