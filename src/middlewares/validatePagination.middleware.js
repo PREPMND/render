@@ -9,7 +9,6 @@ export const validatePagination=async(req,res)=>{
         if(limit>10 || limit<1 || isNaN(Number(limit))){
             throw new apiError(401,"Limit should'nt exceed 10 and should be a number");
         }
-        page=Number(page);
         req.validatedQuery={
             ...req.validatedQuery,
             page,
