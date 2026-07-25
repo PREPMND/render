@@ -32,7 +32,7 @@ const socketSchema=new Schema(
         lastSeen:{
             type:Date,
         },
-        issOnline:{
+        isOnline:{
             type:Boolean,
             default:false
         }
