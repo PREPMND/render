@@ -16,6 +16,6 @@ export const validatePagination=async(req,res)=>{
         }
         next(req,res,next);
     } catch (error) {
-        throw new apiError(`${error.status}`,`The request responded with ${error.message}`);
+        next(new apiError(`${error.status}`,`The request responded with ${error.message}`);)
     }
 }
