@@ -31,6 +31,9 @@ const socketSchema=new Schema(
         },
         lastSeen:{
             type:Date,
+        },
+        issOnline:{
+            
         }
     },{timestamps:true}
 );
