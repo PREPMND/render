@@ -6,7 +6,7 @@ export const validatePagination=async(req,res)=>{
     }
     const limit=(req.query.limit) ||6;
     if(limit>10 || !isNaN(Number(limit))){
-        throw new apiError(401,"")
+        throw new apiError(401,"Limit should")
     }
 
 }
