@@ -18,6 +18,6 @@ export const validatePagination=async(req,res)=>{
         }
         next();
     } catch (error) {
-        throw new apiError(401,`The request resp`)
+        throw new apiError(401,`The request responded with ${error.}`)
     }
 }
