@@ -719,7 +719,8 @@ export const queryBuilder =async(query,options)=>{
     }
     const sortMap={
         latest:{createdAt:-1},
-        
+        oldest:{createdAt:1},
+        mostViewed:{}
     }
 
 }
