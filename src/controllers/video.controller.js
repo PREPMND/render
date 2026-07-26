@@ -696,13 +696,12 @@ export const videoController = async (req, res) => {
     }
 }
 export const queryBuilder =async(query,options)=>{
-    //query here is 
+    //query here is req.validatedQuery
     const {
         searchableFields=[],
         allowedSort=[]
     }=options;
     const filter={
-        if(allowedSort.isPublished)
     };
 
 }
