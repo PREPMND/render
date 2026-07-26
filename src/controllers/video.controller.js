@@ -723,5 +723,5 @@ export const queryBuilder =async(query,options)=>{
         mostViewed:{views:-1},
     }
     const sortOption= allowedSort.includes(query.sort)?
-    
+
 }
