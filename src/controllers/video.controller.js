@@ -696,5 +696,5 @@ export const videoController = async (req, res) => {
     }
 }
 export const queryBuilder =async(query,options)=>{
-
+    const options
 }
