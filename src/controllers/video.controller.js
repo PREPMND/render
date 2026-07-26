@@ -696,6 +696,7 @@ export const videoController = async (req, res) => {
     }
 }
 export const queryBuilder =async(query,options)=>{
+    //query here is 
     const {
         searchableFields=[],
         allowedSort=[]
