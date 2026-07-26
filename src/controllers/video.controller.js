@@ -711,12 +711,12 @@ export const queryBuilder =async(query,options)=>{
             }
         }))
     }
-    if(filter.owner){
+    if(query.owner){
         filter.owner={
             $regex:owner,
             $options:"i"
-        }//assuming that base data has 
+        }//assuming that base data has owner field in it(the odcuments)
     }
-
+    
 
 }
