@@ -717,6 +717,8 @@ export const queryBuilder =async(query,options)=>{
             $options:"i"
         }//assuming that base data has owner field in it(the odcuments)
     }
-    
+    const sortMap={
+        
+    }
 
 }
