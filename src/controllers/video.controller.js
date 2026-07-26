@@ -695,6 +695,6 @@ export const videoController = async (req, res) => {
         throw new apiError(401,"The video controller went through an error");
     }
 }
-export const queryBuilder =async(req.res)=>{
+export const queryBuilder =async(query,options)=>{
 
 }
