@@ -700,4 +700,6 @@ export const queryBuilder =async(query,options)=>{
         searchableFields=[],
         allowedSort=[]
     }=options;
+    const filter={};
+    
 }
