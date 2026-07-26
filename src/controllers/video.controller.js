@@ -703,6 +703,7 @@ export const queryBuilder =async(query,options)=>{
     }=options;
     const filter={};
     filter.isPublished=query.isPublished;
-    
+    if(query.sea)
+
 
 }
