@@ -705,7 +705,9 @@ export const queryBuilder =async(query,options)=>{
     filter.isPublished=query.isPublished;
     if(query.search){
         filter.$or=searchableFields.map(fields=>({
-            
+            [fileds]:{
+                
+            }
         }))
     }
 
