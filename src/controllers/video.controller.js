@@ -724,10 +724,13 @@ export const queryBuilder = async (query, options) => {
     }
     const sortOption = allowedSort.includes(query.sort) ? sortMap[query.sort] : sortMap.latest;
     return {
-        page:query.page,
-        limit:query.limit,
         filter,
         
+        page:query.page,
+        limit:query.limit,
+        
+
+
     }
 
 }
