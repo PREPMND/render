@@ -707,7 +707,7 @@ export const queryBuilder =async(query,options)=>{
         filter.$or=searchableFields.map(fields=>({
             [fileds]:{
                 $regex:fields,
-                $options
+                $options:"i"
             }
         }))
     }
