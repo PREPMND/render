@@ -726,7 +726,8 @@ export const queryBuilder = async (query, options) => {
     return {
         page:query.page,
         limit:query.limit,
-        filter
+        filter,
+        
     }
 
 }
