@@ -701,7 +701,7 @@ export const queryBuilder =async(query,options)=>{
         allowedSort=[]
     }=options;
     const filter={
-        if(allowedSort.)
+        if(allowedSort.isPublished)
     };
 
 }
