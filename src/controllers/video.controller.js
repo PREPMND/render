@@ -713,6 +713,7 @@ export const queryBuilder =async(query,options)=>{
     }
     if(filter.owner){
         filter.owner={
+            $regex:owner,
             
         }
     }
