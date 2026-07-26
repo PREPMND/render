@@ -722,5 +722,5 @@ export const queryBuilder =async(query,options)=>{
         oldest:{createdAt:1},
         mostViewed:{views:-1},
     }
-    const allowedSort.map
+    const allowedSort.includes()
 }
