@@ -715,7 +715,7 @@ export const queryBuilder =async(query,options)=>{
         filter.owner={
             $regex:owner,
             $options:"i"
-        }
+        }//assuming that base data has 
     }
 
 
