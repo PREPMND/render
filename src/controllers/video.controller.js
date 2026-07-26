@@ -728,7 +728,8 @@ export const queryBuilder = async (query, options) => {
         sortOption,
         page:query.page,
         limit:query.limit,
-        skip:(page-1)*limit,
+        skip: (query.page - 1) * query.limit
+
     }
 
 }
