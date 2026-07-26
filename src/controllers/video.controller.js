@@ -718,6 +718,7 @@ export const queryBuilder =async(query,options)=>{
         }//assuming that base data has owner field in it(the odcuments)
     }
     const sortMap={
+        latest:{createdAt:-1},
         
     }
 
