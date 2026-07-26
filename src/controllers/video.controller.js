@@ -711,7 +711,7 @@ export const queryBuilder =async(query,options)=>{
             }
         }))
     }
-    if
+    if(filter.owner)
 
 
 }
