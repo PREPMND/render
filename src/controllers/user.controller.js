@@ -151,7 +151,7 @@ const logOutUser = asyncHandler(async (req, res, next) => {
     const cookieOptions = {
         httpOnly: true,
         secure: isProd,
-        sameSite: isProd?"none":"lax",
+        sameSite: isProd ? "none" : "lax",
     };
 
     res.clearCookie("refreshToken", cookieOptions);
