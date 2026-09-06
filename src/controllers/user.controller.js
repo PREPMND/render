@@ -121,8 +121,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
     const options = {
         httpOnly: true,
         secure: isProd,
-        sameSite: isProd ? "none" : "lax",
-        maxAge: 7*24*60 * 60 * 1000
+        sameSite: isProd?"none":"lax",
+        maxAge: 7*24*60*60*1000
     };
 
     console.log(refreshToken);
